@@ -1,0 +1,99 @@
+{
+    "EP_1": [
+        {
+            "id": "1",
+            "titulo": "Mundo Antigo",
+            "img_fundo": "cap1_ep1_bg.png",
+            "texto": [
+                "teste de fala 1",
+                "teste de fala 2",
+                "teste de [mencao]",
+                "teste de nome: [nome_jogador]"
+            ],
+            "opcoes": [
+                {
+                    "texto": "escolha 1",
+                    "cena": "1_1"
+                },
+                {
+                    "texto": "escolha 2",
+                    "cena": "1_2"
+                },
+                {
+                    "texto": "escolha 3",
+                    "cena": "2"
+                }
+            ]
+        },
+         {
+            "id": "1_1",
+            "titulo": "Mundo Antigo",
+            "img_fundo": "cap1_ep1_bg.png",
+            "texto": [
+                "teste de fala 3",
+                "teste de fala 4",
+                "teste de [mencao]",
+                "teste de nome: [nome_jogador]"
+            ],
+            "opcoes": [
+                {
+                    "texto": "escolha 1",
+                    "cena": "1"
+                },
+                {
+                    "texto": "escolha 2",
+                    "cena": "1_2"
+                },
+                {
+                    "texto": "escolha 3",
+                    "cena": "2"
+                }
+            ]
+        },
+         {
+            "id": "1_2",
+            "titulo": "Mundo Antigo",
+            "img_fundo": "cap1_ep1_bg.png",
+            "texto": [
+                "teste de fala 5",
+                "teste de fala 6",
+                "teste de [mencao]",
+                "teste de nome: [nome_jogador]"
+            ],
+            "opcoes": [
+                {
+                    "texto": "escolha 1",
+                    "cena": "1"
+                },
+                {
+                    "texto": "escolha 2",
+                    "cena": "1_1"
+                },
+                {
+                    "texto": "escolha 3",
+                    "cena": "2"
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "titulo": "Aventura Continua",
+            "img_fundo": "cap1_ep2_bg.png",
+            "texto": [
+                "Bem-vindo ao segundo episódio!",
+                "Aqui a aventura se intensifica.",
+                "Prepare-se para novos desafios, [nome_jogador]!"
+            ],
+            "opcoes": [
+                {
+                    "texto": "Continuar para o próximo episódio",
+                    "cena": "EP_3"
+                },
+                {
+                    "texto": "Sair para o menu principal",
+                    "cena": "MENU_PRINCIPAL"
+                }
+            ]
+        }
+    ]
+}
