@@ -14,17 +14,20 @@ class Game:
 
     def run(self):
         running = True
+        buttons = None
+        last_scene_id = None
         while running:
             scene = self.scenes.get(self.current_scene_id)
             if not scene:
                 print("Scene not found:", self.current_scene_id)
                 running = False
                 continue
+            # Reset buttons when scene changes
+            if last_scene_id != self.current_scene_id:
+                buttons = None
+                last_scene_id = self.current_scene_id
 
-            buttons = self.renderer.display_scene(scene, self.player_name, self.current_text_index, self.characters, self.renderer.text_processor)
-            if buttons:
-                self.renderer.draw_buttons(buttons)
-
+            # Process events using current button objects (from previous frame)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -32,7 +35,6 @@ class Game:
                     mouse_pos = pygame.mouse.get_pos()
                     for button, _ in buttons:
                         button.update_hover(mouse_pos)
-                    self.renderer.draw_buttons(buttons)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
@@ -60,6 +62,12 @@ class Game:
                         if button.is_clicked(mouse_pos, event):
                             self.current_scene_id = next_scene
                             self.current_text_index = 1
+                            # when scene changes, we'll reset buttons next loop
                             break
+
+            # Draw once per frame using current/updated buttons; display_scene will create buttons
+            buttons = self.renderer.display_scene(scene, self.player_name, self.current_text_index, self.characters, self.renderer.text_processor, buttons)
+
+            # Cap frame rate
 
             self.clock.tick(60)

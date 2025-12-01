@@ -1,13 +1,28 @@
 import pygame
+import re
 
 class TextProcessor:
     def replace_placeholders(self, text, player_name, characters):
-        text = text.replace("[nome_jogador]", player_name)
+        # Substitui [nome_jogador] pelo nome do jogador (case-insensitive)
+        text = re.sub(r'\[nome_jogador\]', player_name, text, flags=re.IGNORECASE)
+
+        # Mapeia versões normalizadas (a-z0-9 -> _) para o nome real
+        norm_map = {}
         for name in characters:
-            # Cria um placeholder normalizado (sem espaços e em minúsculas)
-            placeholder = f"[{name.lower().replace(' ', '_')}]"
-            text = text.replace(placeholder, f"<{name}>")
-        # Agora, envolve o nome do jogador com < >
+            norm = re.sub(r'[^a-z0-9]', '_', name.lower())
+            norm_map[norm] = name
+
+        # Substitui todas as marcações [token] por <Name> quando houver correspondência
+        def repl(match):
+            key = match.group(1)
+            norm = re.sub(r'[^a-z0-9]', '_', key.lower())
+            if norm in norm_map:
+                return f"<{norm_map[norm]}>"
+            return match.group(0)
+
+        text = re.sub(r'\[([^\]]+)\]', repl, text)
+
+        # Envolve ocorrências literais do nome do jogador com < > para colorização
         text = text.replace(player_name, f"<{player_name}>")
         return text
 

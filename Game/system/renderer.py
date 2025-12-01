@@ -15,7 +15,7 @@ class Renderer:
         self.ui_manager = UIManager(screen_width, screen_height)
         self.text_processor = None  # Will be set later
 
-    def display_scene(self, scene, player_name, text_index, characters, text_processor):
+    def display_scene(self, scene, player_name, text_index, characters, text_processor, buttons=None):
         # Background - default to dark if no image
         bg_path = os.path.join('Game', 'data', 'imgs', scene['img_fundo'])
         if os.path.exists(bg_path):
@@ -46,11 +46,16 @@ class Renderer:
             )
 
         # Options as Victorian buttons
-        buttons = []
         if 'opcoes' in scene and text_index >= len(scene['texto']):
-            start_y = (self.screen_height // 2) - (len(scene['opcoes']) * 50) // 2
-            button_objects = self.ui_manager.create_buttons(scene['opcoes'], start_y)
-            buttons = button_objects
+            # Se não houver buttons passados, crie novos
+            if buttons is None:
+                start_y = (self.screen_height // 2) - (len(scene['opcoes']) * 50) // 2
+                buttons = self.ui_manager.create_buttons(scene['opcoes'], start_y)
+
+            # Desenha os botões atuais (se houver)
+            if buttons:
+                for button, _ in buttons:
+                    button.draw(self.screen)
 
         pygame.display.flip()
         return buttons
