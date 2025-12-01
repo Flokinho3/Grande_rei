@@ -1,0 +1,80 @@
+INSTALAÇÃO (Windows / PowerShell)
+
+1) Preparar ambiente Python
+
+Abra PowerShell na raiz do repositório e execute:
+
+```
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+2) Instalar dependências
+
+Este projeto usa `pygame`. Instale com:
+
+```
+pip install pygame
+```
+
+Observação: se a instalação do `pygame` falhar no Windows, tente atualizar o `pip` e instalar via `pipwin`:
+
+```
+pip install --upgrade pip
+pip install pipwin
+pipwin install pygame
+```
+
+3) Executar o jogo
+
+```
+python main.py
+```
+
+3b) Usando `requirements.txt` (recomendado)
+
+Crie/ative o ambiente e então instale as dependências listadas em `requirements.txt`:
+
+```
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+Em seguida execute `python main.py`.
+
+4) Estrutura e edição de conteúdo
+
+- Cenas: edite/adicione arquivos JSON em `Game/data/script/Cap/` seguindo o formato de `EP_1.json`.
+- Personagens: adicione JSONs em `Game/data/script/Base/` com campos `nome` e `cor` (ex.: `"255,0,0"`).
+
+5) Depuração rápida
+
+- Adicione `print()` temporários em `Game/system/game.py` ou `Game/system/data_loader.py` para ver ordem de cenas e `current_scene_id`.
+
+6) Validação de arquivos de cena (opcional)
+
+Há um utilitário simples para validar o formato mínimo dos JSON de cena:
+
+```
+python tools/validate_scenes.py Game/data/script/Cap/Cap_1/EP_1.json
+```
+
+Ou valide todo um diretório de cenas:
+
+```
+python tools/validate_scenes.py Game/data/script/Cap/
+```
+
+O script retorna código de saída `0` em sucesso e `1` em caso de erros.
+
+6) Deseja empacotar dependências?
+
+Crie um `requirements.txt` com:
+
+```
+pygame
+```
+
+e instale com `pip install -r requirements.txt`.
+
+Se precisar, eu posso criar o `requirements.txt` e instruções adicionais para empacotamento.
