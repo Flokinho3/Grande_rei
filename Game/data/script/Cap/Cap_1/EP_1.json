@@ -5,27 +5,22 @@
             "titulo": "Mundo Antigo",
             "img_fundo": "cap1_ep1_bg.png",
             "texto": [
-                "teste de fala 1",
-                "teste de fala 2",
-                "teste de [mencao]",
-                "teste de nome: [nome_jogador]"
-            ],
-            "opcoes": [
-                {
-                    "texto": "escolha 1",
-                    "cena": "1_1"
-                },
-                {
-                    "texto": "escolha 2",
-                    "cena": "1_2"
-                },
-                {
-                    "texto": "escolha 3",
-                    "cena": "2"
-                }
+                "Há mil anos, uma guerra colossal abalou as fundações do mundo — travada entre raças antigas, cujos nomes hoje ecoam apenas em lendas e cicatrizes na terra.",
+                "[demonios]: Seres imensamente fortes e resistentes, que arrasaram cidades, dizimaram povos e deixaram rastros de cinzas por onde passaram.",
+                "[semi-humanos]: Raça híbrida criada nos campos de batalha. Ágeis e espertos, mas frágeis demais para resistir em combate. Hoje, servem em lares, forjas, campos e até nas cortes menores — presentes em quase todo lugar onde há trabalho a ser feito.",
+                "[humanos]: Aparentemente a raça mais fraca em força, resistência e magia... e, ainda assim, a única capaz de florescer em qualquer canto do mundo.",
+                "Após a guerra, os grandes feudos se fragmentaram em pequenas nações soberanas, conhecidas como Casas — cada uma governada por seu próprio código, leis e ambições.",
+                "Mas todas as Casas juraram um único pacto, selado em sangue e honra: a cada cinquenta anos, enviarão um representante para disputar o Trono Real.",
+                "Você, [nome_jogador], foi escolhido para representar sua Casa — a [casa_shedow].",
+                "Sua linhagem é lendária: estrategistas que moveram exércitos como peões, magos cujos feitiços mudaram o curso da história.",
+                "Sua família travou guerras por vingança pessoal... e forjou eras de paz com acordos que nenhum outro ousaria propor.",
+                "Mas há um segredo guardado até dos olhos de sua própria Casa: a [magia_de_sangue]. Dizem que, com um único toque, é capaz de mudar o rumo de uma batalha com um único suspiro.",
+                "Só que seu preço é alto... e o tempo entre usos, cruelmente longo.",
+                "Nenhuma das Casas suspeita que você a possui. Nem o rei. Nem os demais candidatos.",
+                "E agora, enquanto sua carruagem avança pelas estradas poeirentas rumo ao Castelo Real, você sabe: lá dentro, todos serão seus rivais... e nenhum saberá que o perigo mais silencioso já entrou pelas portas do castelo."
             ]
         },
-         {
+        {
             "id": "1_1",
             "titulo": "Mundo Antigo",
             "img_fundo": "cap1_ep1_bg.png",
@@ -50,7 +45,7 @@
                 }
             ]
         },
-         {
+        {
             "id": "1_2",
             "titulo": "Mundo Antigo",
             "img_fundo": "cap1_ep1_bg.png",
@@ -87,11 +82,15 @@
             "opcoes": [
                 {
                     "texto": "Continuar para o próximo episódio",
-                    "cena": "EP_3"
+                    "cena": "1_1"
                 },
                 {
                     "texto": "Sair para o menu principal",
-                    "cena": "MENU_PRINCIPAL"
+                    "cena": "1_2"
+                },
+                {
+                    "texto": "Revisitar o episódio anterior",
+                    "cena": "1"
                 }
             ]
         }

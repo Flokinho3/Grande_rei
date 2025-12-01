@@ -1,0 +1,10 @@
+{
+    "nome": "Yuno",
+    "cor": "255, 51, 153",
+    "vida": 100,
+    "forca": 15,
+    "inteligencia": 12,
+    "agilidade": 14,
+    "inventario": [],
+    "estatus": []
+}
