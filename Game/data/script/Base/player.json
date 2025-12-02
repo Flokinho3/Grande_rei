@@ -5,9 +5,16 @@
     "forca": 15,
     "inteligencia": 12,
     "agilidade": 14,
-    "inventario": [],
+    "inventario": [
+        {
+            "tipo": "Arma",
+            "nome": "Adaga",
+            "quantidade": 1,
+            "descricao": "Uma pequena arma facilmente escondida."
+        }
+    ],
     "estatus": [],
-    "save":{
+    "save": {
         "Cap": "Cap_1",
         "EP": "EP_1",
         "Cena": "1"

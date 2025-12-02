@@ -1,8 +1,11 @@
-import pygame
 import re
 
 class TextProcessor:
     def replace_placeholders(self, text, player_name, characters):
+        # Remove sprite commands from text (they're display commands, not dialogue)
+        text = re.sub(r'\{img_esquerda:[^}]*\}', '', text)
+        text = re.sub(r'\{img_clear\}', '', text)
+        
         # Substitui [nome_jogador] pelo nome do jogador (case-insensitive)
         text = re.sub(r'\[nome_jogador\]', player_name, text, flags=re.IGNORECASE)
 
@@ -106,7 +109,7 @@ class TextProcessor:
             draw_x = x
             for ttype, tval in line_tokens:
                 if ttype == 'name':
-                    color = name_colors.get(tval, default_color)
+                    color = name_colors.get(tval, {}).get('color', default_color)
                     surf = font.render(tval, True, color)
                     screen.blit(surf, (draw_x, cur_y))
                     draw_x += surf.get_width()

@@ -22,77 +22,119 @@
         },
         {
             "id": "1_1",
-            "titulo": "Mundo Antigo",
-            "img_fundo": "cap1_ep1_bg.png",
+            "titulo": "Chegada ao Castelo",
+            "img_fundo": "cap1_ep1_bg2.png",
             "texto": [
-                "teste de fala 3",
-                "teste de fala 4",
-                "teste de [mencao]",
-                "teste de nome: [nome_jogador]"
+                "Ao decorrer da viegam e posivel ver um muro imenso se aproximando, Ao fundo e posivel ver umc astelo inponente e magestoso.",
+                "Voce ainda tem tempo ate a chega da carruagem no castelo, entao aproveita para:"
             ],
+            "save_point": true,
             "opcoes": [
                 {
-                    "texto": "escolha 1",
-                    "cena": "1"
+                    "texto": "Olhar pela janela e observar o castelo.",
+                    "proximo_id": "1_2"
                 },
                 {
-                    "texto": "escolha 2",
-                    "cena": "1_2"
+                    "texto": "Olhar pela janela e observar a floresta.",
+                    "proximo_id": "1_3"
                 },
                 {
-                    "texto": "escolha 3",
-                    "cena": "2"
+                    "texto": "Olhar dendtro da carruagem.",
+                    "proximo_id": "1_4"
+                },
+                {
+                    "texto": "Descansar ate sua chegada.",
+                    "proximo_id": "2"
                 }
             ]
         },
         {
             "id": "1_2",
-            "titulo": "Mundo Antigo",
-            "img_fundo": "cap1_ep1_bg.png",
+            "titulo": "Castelo do rei",
+            "img_fundo": "cap1_ep1_bg3.png",
             "texto": [
-                "teste de fala 5",
-                "teste de fala 6",
-                "teste de [mencao]",
-                "teste de nome: [nome_jogador]"
+                "Emquanto se aprocima do castelo voce percebe um detalhe!",
+                "Nao tem guardas na muralha do castelo, nem armadilhas, NADA!",
+                "Apenas um muro imenso e o castelo ao fundo.",
+                "Voce se pergunta o porque disso, mas logo a carruagem chega no castelo."
             ],
             "opcoes": [
                 {
-                    "texto": "escolha 1",
-                    "cena": "1"
+                    "texto": "Descansar ate sua chegada.",
+                    "proximo_id": "2"
                 },
                 {
-                    "texto": "escolha 2",
-                    "cena": "1_1"
+                    "texto": "Olhar para a floresta.",
+                    "proximo_id": "1_3"
+                }
+            ]
+        },
+        {
+            "id": "1_3",
+            "titulo": "Observando a Floresta",
+            "img_fundo": "cap1_ep1_bg3.png",
+            "texto": [
+                "Voce olha pela janela e observa a floresta densa que cerca o castelo. As arvores altas se erguem em direçoes ao ceu, suas copas formando um teto verdejante que filtra a luz do sol.",
+                "ao longe e posivel ver um coelho em meio a floresta",
+                "{nome_player}:Na natureza nada e o que parece!",
+                "{nome_player}:Ate o animal mais fofo!",
+                "Ao decorrer a carroagem percebe que tem 3 lobos mortos no chao, um deles sem cabeça.",
+                "{nome_player}:Tem seus truques na manga!",
+                "{nome_player}:A floresta e traiçoeira!"
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Descansar ate sua chegada.",
+                    "proximo_id": "2"
                 },
                 {
-                    "texto": "escolha 3",
-                    "cena": "2"
+                    "texto": "Olhar para o castelo.",
+                    "proximo_id": "1_2"
+                }
+            ]
+
+        },
+        {
+            "id": "1_4",
+            "titulo": "Dentro da Carruagem",
+            "img_fundo": "cap1_ep1_bg2.png",
+            "texto": [
+                "Voce olha ao redor da carruagem, observando os detalhes do interior. As paredes sao revestidas com um tecido luxuoso, talvez veludo, em um tom profundo de vermelho que contrasta com o dourado dos acabamentos.",
+                "As janelas sao grandes, permitindo uma vista panoramica do mundo exterior, mas tambem sao cobertas por cortinas pesadas que podem ser fechadas para garantir privacidade.",
+                "No chao, um tapete macio cobre toda a extensao, amortecendo o som dos passos e tornando o ambiente mais aconchegante."
+            ],
+            "opcoes": [
+                {
+                    "texto": "Descansar ate sua chegada.",
+                    "proximo_id": "2"
+                },
+                {
+                    "texto": "Olhar para o castelo.",
+                    "proximo_id": "1_2"
+                },
+                {
+                    "texto": "Olhar para a floresta.",
+                    "proximo_id": "1_3"
                 }
             ]
         },
         {
             "id": "2",
-            "titulo": "Aventura Continua",
-            "img_fundo": "cap1_ep2_bg.png",
+            "titulo": "Chegada ao Castelo",
+            "img_fundo": "cap1_ep1_bg3.png",
             "texto": [
-                "Bem-vindo ao segundo episódio!",
-                "Aqui a aventura se intensifica.",
-                "Prepare-se para novos desafios, [nome_jogador]!"
-            ],
-            "opcoes": [
-                {
-                    "texto": "Continuar para o próximo episódio",
-                    "cena": "1_1"
-                },
-                {
-                    "texto": "Sair para o menu principal",
-                    "cena": "1_2"
-                },
-                {
-                    "texto": "Revisitar o episódio anterior",
-                    "cena": "1"
-                }
+                "A carruagem finalmente chega ao imponente castelo, suas torres se erguendo majestosamente contra o ceu. Voce sente uma mistura de ansiedade e excitacao enquanto desce da carruagem, pronto para enfrentar os desafios que o aguardam dentro dessas paredes antigas.",
+                "Os guardas na entrada o observam atentamente, avaliando sua presenca com olhos experientes. Voce sabe que cada movimento sera julgado, cada palavra analisada.",
+                "Com um suspiro profundo, voce ajusta suas roupas e avanca em direcao ao portao principal, determinado a mostrar que voce e digno de competir pelo Trono Real.",
+                "Ao se apocimar do portao uma [semi_humana] coma orelhas de raposa e cauda gelpuda de pelagem zul com pontas brancas se aproxima de voce.",
+                "{img_esquerda:yuno}",
+                "{yuno}: Seja bem vindo ao castelo, [nome_jogador]-sama. Eu sou Yuno,Serei usa serva durante a sua estadia!.",
+                "{img_esquerda:yuno}",
+                "{yuno}: Estarei ao seu lado durante a acessao ou sua queda."
+
             ]
         }
+        
     ]
 }
