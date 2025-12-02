@@ -7,5 +7,12 @@
     "agilidade": 14,
     "inventario": [],
     "estatus": [],
-    "img": "yuno.png"
+    "img": "yuno.png",
+    "status": [
+        "Amigável",
+        "Prestativa"
+    ],
+    "humor": "Feliz",
+    "afeto": "+5",
+    "dedicação": "+5"
 }

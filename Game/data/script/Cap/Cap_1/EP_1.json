@@ -25,8 +25,8 @@
             "titulo": "Chegada ao Castelo",
             "img_fundo": "cap1_ep1_bg2.png",
             "texto": [
-                "Ao decorrer da viegam e posivel ver um muro imenso se aproximando, Ao fundo e posivel ver umc astelo inponente e magestoso.",
-                "Voce ainda tem tempo ate a chega da carruagem no castelo, entao aproveita para:"
+                "Ao decorrer da viagem é possível ver um muro imenso se aproximando; ao fundo, é possível ver um castelo imponente e majestoso.",
+                "Você ainda tem tempo até a chegada da carruagem ao castelo, então aproveita para:"
             ],
             "save_point": true,
             "opcoes": [
@@ -39,11 +39,11 @@
                     "proximo_id": "1_3"
                 },
                 {
-                    "texto": "Olhar dendtro da carruagem.",
+                    "texto": "Olhar dentro da carruagem.",
                     "proximo_id": "1_4"
                 },
                 {
-                    "texto": "Descansar ate sua chegada.",
+                    "texto": "Descansar até sua chegada.",
                     "proximo_id": "2"
                 }
             ]
@@ -53,14 +53,14 @@
             "titulo": "Castelo do rei",
             "img_fundo": "cap1_ep1_bg3.png",
             "texto": [
-                "Emquanto se aprocima do castelo voce percebe um detalhe!",
-                "Nao tem guardas na muralha do castelo, nem armadilhas, NADA!",
+                "Enquanto se aproxima do castelo, você percebe um detalhe!",
+                "Não há guardas na muralha do castelo, nem armadilhas — NADA!",
                 "Apenas um muro imenso e o castelo ao fundo.",
-                "Voce se pergunta o porque disso, mas logo a carruagem chega no castelo."
+                "Você se pergunta o porquê disso, mas logo a carruagem chega ao castelo."
             ],
             "opcoes": [
                 {
-                    "texto": "Descansar ate sua chegada.",
+                    "texto": "Descansar até sua chegada.",
                     "proximo_id": "2"
                 },
                 {
@@ -74,18 +74,18 @@
             "titulo": "Observando a Floresta",
             "img_fundo": "cap1_ep1_bg3.png",
             "texto": [
-                "Voce olha pela janela e observa a floresta densa que cerca o castelo. As arvores altas se erguem em direçoes ao ceu, suas copas formando um teto verdejante que filtra a luz do sol.",
-                "ao longe e posivel ver um coelho em meio a floresta",
-                "{nome_player}:Na natureza nada e o que parece!",
-                "{nome_player}:Ate o animal mais fofo!",
-                "Ao decorrer a carroagem percebe que tem 3 lobos mortos no chao, um deles sem cabeça.",
-                "{nome_player}:Tem seus truques na manga!",
-                "{nome_player}:A floresta e traiçoeira!"
+                "Você olha pela janela e observa a floresta densa que cerca o castelo. As árvores altas se erguem em direção ao céu, suas copas formando um teto verdejante que filtra a luz do sol.",
+                "Ao longe, é possível ver um coelho em meio à floresta",
+                "{nome_player}: Na natureza, nada é o que parece!",
+                "{nome_player}: Até o animal mais fofo!",
+                "Durante a viagem, você avista três lobos mortos no chão, um deles sem cabeça.",
+                "{nome_player}: Tem seus truques na manga!",
+                "{nome_player}: A floresta é traiçoeira!"
             ],
             "save_point": true,
             "opcoes": [
                 {
-                    "texto": "Descansar ate sua chegada.",
+                    "texto": "Descansar até sua chegada.",
                     "proximo_id": "2"
                 },
                 {
@@ -100,13 +100,13 @@
             "titulo": "Dentro da Carruagem",
             "img_fundo": "cap1_ep1_bg2.png",
             "texto": [
-                "Voce olha ao redor da carruagem, observando os detalhes do interior. As paredes sao revestidas com um tecido luxuoso, talvez veludo, em um tom profundo de vermelho que contrasta com o dourado dos acabamentos.",
-                "As janelas sao grandes, permitindo uma vista panoramica do mundo exterior, mas tambem sao cobertas por cortinas pesadas que podem ser fechadas para garantir privacidade.",
-                "No chao, um tapete macio cobre toda a extensao, amortecendo o som dos passos e tornando o ambiente mais aconchegante."
+                "Você olha ao redor da carruagem, observando os detalhes do interior. As paredes são revestidas com um tecido luxuoso, talvez veludo, em um tom profundo de vermelho que contrasta com o dourado dos acabamentos.",
+                "As janelas são grandes, permitindo uma vista panorâmica do mundo exterior, mas também são cobertas por cortinas pesadas que podem ser fechadas para garantir privacidade.",
+                "No chão, um tapete macio cobre toda a extensão, amortecendo o som dos passos e tornando o ambiente mais aconchegante."
             ],
             "opcoes": [
                 {
-                    "texto": "Descansar ate sua chegada.",
+                    "texto": "Descansar até sua chegada.",
                     "proximo_id": "2"
                 },
                 {
@@ -122,17 +122,54 @@
         {
             "id": "2",
             "titulo": "Chegada ao Castelo",
-            "img_fundo": "cap1_ep1_bg3.png",
+            "img_fundo": "cap1_ep1_bg4.png",
             "texto": [
-                "A carruagem finalmente chega ao imponente castelo, suas torres se erguendo majestosamente contra o ceu. Voce sente uma mistura de ansiedade e excitacao enquanto desce da carruagem, pronto para enfrentar os desafios que o aguardam dentro dessas paredes antigas.",
-                "Os guardas na entrada o observam atentamente, avaliando sua presenca com olhos experientes. Voce sabe que cada movimento sera julgado, cada palavra analisada.",
-                "Com um suspiro profundo, voce ajusta suas roupas e avanca em direcao ao portao principal, determinado a mostrar que voce e digno de competir pelo Trono Real.",
-                "Ao se apocimar do portao uma [semi_humana] coma orelhas de raposa e cauda gelpuda de pelagem zul com pontas brancas se aproxima de voce.",
+                "A carruagem finalmente chega ao imponente castelo, suas torres se erguendo majestosamente contra o céu. Você sente uma mistura de ansiedade e excitação enquanto desce da carruagem, pronto para enfrentar os desafios que o aguardam dentro dessas paredes antigas.",
+                "Os guardas na entrada o observam atentamente, avaliando sua presença com olhos experientes. Você sabe que cada movimento será julgado, cada palavra analisada.",
+                "Com um suspiro profundo, você ajusta suas roupas e avança em direção ao portão principal, determinado a mostrar que você é digno de competir pelo Trono Real.",
+                "Ao se aproximar do portão, uma [semi_humana] com orelhas de raposa e cauda peluda de pelagem azul com pontas brancas se aproxima de você.",
                 "{img_esquerda:yuno}",
-                "{yuno}: Seja bem vindo ao castelo, [nome_jogador]-sama. Eu sou Yuno,Serei usa serva durante a sua estadia!.",
+                "{yuno}: Seja bem-vindo ao castelo, [nome_jogador]-sama. Eu sou Yuno, serei sua serva durante a sua estadia!",
                 "{img_esquerda:yuno}",
-                "{yuno}: Estarei ao seu lado durante a acessao ou sua queda."
-
+                "{yuno}: Estarei ao seu lado durante a ascensão ou sua queda.",
+                "Voce:"
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "[Cumprimentar Yuno educadamente.]",
+                    "proximo_id": "2_1"
+                },
+                {
+                    "texto": "[Comprimir a serva de forma sorbeba.]",
+                    "proximo_id": "2_2"
+                },
+                {
+                    "texto": "Que diabos e voce? bixo imundo",
+                    "proximo_id": "2_3"
+                },
+                {
+                    "texto": "[Ignorar Yuno.]",
+                    "proximo_id": "2_4"
+                }
+            ]
+        },
+        {
+            "id": "2_1",
+            "titulo": "Cumprimento Educado",
+            "img_fundo": "cap1_ep1_bg4.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Amigável", "Prestativa"],
+                "humor": "Feliz",
+                "afeto": "+5",
+                "dedicação": "+5"
+            },
+            "texto": [
+                "Você sorri educadamente para Yuno e faz uma reverência leve.",
+                "{nome_jogador}: Muito prazer em conhecê-la, [yuno]. Agradeço por sua hospitalidade.",
+                "{img_esquerda:yuno}",
+                "{yuno}: Estou à sua disposição, [nome_jogador]-sama. Espero que nossa convivência seja agradável e produtiva."
             ]
         }
         

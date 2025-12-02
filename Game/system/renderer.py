@@ -3,6 +3,7 @@ import re
 
 import os
 from .ui_manager import UIManager
+from .sprite_manager import SpriteManager
 
 class Renderer:
     def __init__(self, screen, font, title_font, screen_width, screen_height, white, black, gray):
@@ -16,8 +17,11 @@ class Renderer:
         self.gray = gray
         self.ui_manager = UIManager(screen_width, screen_height)
         self.text_processor = None  # Will be set later
+        # Novo sistema de sprites
+        sprite_base_path = os.path.join('Game', 'data', 'script', 'imgs', 'NPC')
+        self.sprite_manager = SpriteManager(screen_width, screen_height, sprite_base_path)
 
-    def display_scene(self, scene, player_name, text_index, characters, text_processor, buttons=None, current_sprite=None, item_notification=None):
+    def display_scene(self, scene, player_name, text_index, characters, text_processor, buttons=None, sprite_manager=None, item_notification=None):
         # Always clear the screen with background color first
         self.screen.fill(self.ui_manager.background_color)
 
@@ -37,46 +41,10 @@ class Renderer:
             y = (self.screen_height - new_size[1]) // 2
             self.screen.blit(background, (x, y))
 
-        # Character sprite (after background, before text box)
-        print(f"[DEBUG RENDERER] current_sprite: {current_sprite}")
-        print(f"[DEBUG RENDERER] characters disponíveis: {list(characters.keys()) if characters else 'None'}")
-        
-        # Normalize sprite name to match character names (case-insensitive)
-        actual_sprite_name = None
-        if current_sprite:
-            sprite_lower = current_sprite.lower()
-            for char_name in characters.keys():
-                if char_name.lower() == sprite_lower:
-                    actual_sprite_name = char_name
-                    break
-        
-        if actual_sprite_name and actual_sprite_name in characters:
-            char_data = characters[actual_sprite_name]
-            print(f"[DEBUG RENDERER] Dados do personagem {actual_sprite_name}: {char_data}")
-            if 'img' in char_data and char_data['img']:
-                img_path = os.path.join('Game', 'data', 'script', 'imgs', 'NPC', char_data['img'])
-                print(f"[DEBUG RENDERER] Caminho da imagem: {img_path}")
-                print(f"[DEBUG RENDERER] Arquivo existe? {os.path.exists(img_path)}")
-                if os.path.exists(img_path):
-                    sprite = pygame.image.load(img_path).convert_alpha()
-                    sw, sh = sprite.get_size()
-                    # Scale sprite to reasonable size (max 30% of screen width, 60% of height)
-                    max_sprite_width = int(self.screen_width * 0.30)
-                    max_sprite_height = int(self.screen_height * 0.60)
-                    scale = min(max_sprite_width / sw, max_sprite_height / sh, 1.0) if sw > 0 and sh > 0 else 1.0
-                    new_sprite_size = (int(sw * scale), int(sh * scale))
-                    sprite = pygame.transform.scale(sprite, new_sprite_size)
-                    # Position on left side, bottom aligned
-                    sprite_x = int(self.screen_width * 0.05)  # 5% from left edge
-                    sprite_y = self.screen_height - new_sprite_size[1] - int(self.screen_height * 0.25)  # Above text box area
-                    print(f"[DEBUG RENDERER] Desenhando sprite em ({sprite_x}, {sprite_y}), tamanho {new_sprite_size}")
-                    self.screen.blit(sprite, (sprite_x, sprite_y))
-                else:
-                    print(f"[DEBUG RENDERER] ERRO: Arquivo de imagem não encontrado!")
-            else:
-                print(f"[DEBUG RENDERER] Personagem {actual_sprite_name} não tem campo 'img' ou está vazio")
-        elif current_sprite:
-            print(f"[DEBUG RENDERER] AVISO: sprite '{current_sprite}' não encontrado em characters (disponíveis: {list(characters.keys())})")
+        # Character sprites (after background, before text box) - usando novo sistema
+        if sprite_manager:
+            sprite_manager.update()
+            sprite_manager.render(self.screen)
 
         # Title
         title = text_processor.replace_placeholders(scene['titulo'], player_name, characters)
