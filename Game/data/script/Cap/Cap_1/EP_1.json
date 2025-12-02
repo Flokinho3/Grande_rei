@@ -163,7 +163,7 @@
                 "status": ["Amigável", "Prestativa"],
                 "humor": "Feliz",
                 "afeto": "+5",
-                "dedicação": "+5"
+                "dedicacao": "+5"
             },
             "texto": [
                 "Você sorri educadamente para Yuno e faz uma reverência leve.",

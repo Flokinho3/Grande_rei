@@ -5,7 +5,7 @@ Suporta múltiplos sprites, posicionamento, expressões, transições e efeitos
 
 import pygame
 import os
-from typing import Dict, Optional, Tuple, List
+from typing import Dict, Optional, List
 
 
 class Sprite:
@@ -203,79 +203,3 @@ class SpriteManager:
         """Limpa todos os sprites imediatamente"""
         self.sprites.clear()
         self.fade_out_queue.clear()
-
-
-class SpriteCommandParser:
-    """Parse comandos de sprite do texto das cenas"""
-    
-    @staticmethod
-    def parse_sprite_command(text: str) -> List[Tuple[str, Dict]]:
-        """
-        Parse comandos de sprite do texto
-        Retorna lista de (comando, parâmetros)
-        
-        Comandos suportados:
-        - {sprite:nome:left} - adiciona sprite à esquerda
-        - {sprite:nome:center} - adiciona sprite ao centro
-        - {sprite:nome:right} - adiciona sprite à direita
-        - {sprite:nome:left:happy} - adiciona sprite com expressão
-        - {sprite_clear:left} - remove sprite da esquerda
-        - {sprite_clear:all} - remove todos sprites
-        - {expr:left:sad} - muda expressão do sprite à esquerda
-        
-        Comandos legados (compatibilidade):
-        - {img_esquerda:nome} - adiciona à esquerda
-        - {img_esquerda:} ou {img_clear} - remove todos
-        """
-        import re
-        commands = []
-        
-        # Novo formato: {sprite:nome:posição:expressão}
-        sprite_pattern = r'\{sprite:([^:}]+):([^:}]+)(?::([^:}]+))?\}'
-        for match in re.finditer(sprite_pattern, text):
-            char_name = match.group(1).strip()
-            position = match.group(2).strip()
-            expression = match.group(3).strip() if match.group(3) else ''
-            commands.append(('add', {
-                'character': char_name,
-                'position': position,
-                'expression': expression
-            }))
-            
-        # Comando de remoção: {sprite_clear:posição}
-        clear_pattern = r'\{sprite_clear:([^}]+)\}'
-        for match in re.finditer(clear_pattern, text):
-            target = match.group(1).strip()
-            if target == 'all':
-                commands.append(('clear_all', {}))
-            else:
-                commands.append(('remove', {'position': target}))
-                
-        # Comando de expressão: {expr:posição:expressão}
-        expr_pattern = r'\{expr:([^:}]+):([^}]+)\}'
-        for match in re.finditer(expr_pattern, text):
-            position = match.group(1).strip()
-            expression = match.group(2).strip()
-            commands.append(('expression', {
-                'position': position,
-                'expression': expression
-            }))
-            
-        # Compatibilidade: {img_esquerda:nome}
-        legacy_pattern = r'\{img_esquerda:([^}]*)\}'
-        for match in re.finditer(legacy_pattern, text):
-            char_name = match.group(1).strip()
-            if char_name:
-                commands.append(('add', {
-                    'character': char_name,
-                    'position': 'left',
-                    'expression': ''
-                }))
-            else:
-                commands.append(('clear_all', {}))
-                
-        # Compatibilidade: {img_clear}
-        if '{img_clear}' in text:
-            commands.append(('clear_all', {}))
-            
-        return commands

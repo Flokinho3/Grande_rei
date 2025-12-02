@@ -1,63 +1,12 @@
+"""
+Gerenciador de interface do usuário
+Responsabilidade: Coordenar desenho de caixas de texto, botões, títulos e diálogos
+"""
 
 import pygame
+from .text_style import TextStyle
+from .button import Button
 
-import os
-
-class TextStyle:
-    def __init__(self, font_path=None, size=24, color=(255, 255, 255), bold=False, italic=False):
-        """
-        Classe para definir estilos de texto no estilo vitoriano.
-        - font_path: caminho para a fonte (serif para vitoriano)
-        - size: tamanho da fonte
-        - color: cor do texto (padrão branco)
-        - bold/italic: estilos
-        """
-        if font_path and os.path.exists(font_path):
-            self.font = pygame.font.Font(font_path, size)
-        else:
-            # Fallback para fonte serif padrão
-            self.font = pygame.font.SysFont('timesnewroman', size, bold, italic)
-        self.color = color
-        self.size = size
-
-    def render(self, text, antialias=True):
-        return self.font.render(text, antialias, self.color)
-
-class Button:
-    def __init__(self, x, y, width, height, text, text_style, normal_color=(139, 69, 19), hover_color=(160, 82, 45), border_color=(218, 165, 32), border_width=3):
-        """
-        Botão no estilo vitoriano: bordas douradas, cores escuras.
-        - normal_color: marrom escuro
-        - hover_color: marrom mais claro
-        - border_color: dourado
-        """
-        self.rect = pygame.Rect(x, y, width, height)
-        self.text = text
-        self.text_style = text_style
-        self.normal_color = normal_color
-        self.hover_color = hover_color
-        self.border_color = border_color
-        self.border_width = border_width
-        self.hovered = False
-
-    def draw(self, screen):
-        # Desenha borda dourada
-        pygame.draw.rect(screen, self.border_color, self.rect, self.border_width)
-        # Desenha fundo
-        inner_rect = self.rect.inflate(-self.border_width*2, -self.border_width*2)
-        color = self.hover_color if self.hovered else self.normal_color
-        pygame.draw.rect(screen, color, inner_rect)
-        # Desenha texto centralizado
-        text_surf = self.text_style.render(self.text)
-        text_x = self.rect.x + (self.rect.width - text_surf.get_width()) // 2
-        text_y = self.rect.y + (self.rect.height - text_surf.get_height()) // 2
-        screen.blit(text_surf, (text_x, text_y))
-
-    def update_hover(self, mouse_pos):
-        self.hovered = self.rect.collidepoint(mouse_pos)
-
-    def is_clicked(self, mouse_pos, event):
-        return event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(mouse_pos)
 
 class UIManager:
     def __init__(self, screen_width, screen_height):

@@ -1,9 +1,16 @@
+"""
+Renderizador de cenas
+Responsabilidade: Orquestrar a renderização completa de uma cena (background, sprites, UI)
+"""
+
 import pygame
 import re
-
 import os
+
 from .ui_manager import UIManager
 from .sprite_manager import SpriteManager
+from .background_manager import BackgroundManager
+
 
 class Renderer:
     def __init__(self, screen, font, title_font, screen_width, screen_height, white, black, gray):
@@ -17,29 +24,25 @@ class Renderer:
         self.gray = gray
         self.ui_manager = UIManager(screen_width, screen_height)
         self.text_processor = None  # Will be set later
-        # Novo sistema de sprites
+        
+        # Sistema de sprites
         sprite_base_path = os.path.join('Game', 'data', 'script', 'imgs', 'NPC')
         self.sprite_manager = SpriteManager(screen_width, screen_height, sprite_base_path)
+        
+        # Sistema de backgrounds
+        self.background_manager = BackgroundManager(screen_width, screen_height)
 
     def display_scene(self, scene, player_name, text_index, characters, text_processor, buttons=None, sprite_manager=None, item_notification=None):
         # Always clear the screen with background color first
         self.screen.fill(self.ui_manager.background_color)
 
-        # Background image if available
-        bg_path = os.path.join('Game', 'data', 'script', 'imgs', scene['img_fundo'])
-        if os.path.exists(bg_path):
-            background = pygame.image.load(bg_path)
-            # Scale background to fit screen while keeping aspect ratio
-            bg = background = pygame.image.load(bg_path).convert()
-            bw, bh = bg.get_size()
-            # compute scale factor to fit entirely
-            scale = min(self.screen_width / bw, self.screen_height / bh)
-            new_size = (int(bw * scale), int(bh * scale))
-            background = pygame.transform.scale(bg, new_size)
-            # center the image
-            x = (self.screen_width - new_size[0]) // 2
-            y = (self.screen_height - new_size[1]) // 2
-            self.screen.blit(background, (x, y))
+        # Background image usando BackgroundManager
+        if 'img_fundo' in scene and scene['img_fundo']:
+            self.background_manager.render_background(
+                self.screen, 
+                scene['img_fundo'], 
+                fit_mode='fit'
+            )
 
         # Character sprites (after background, before text box) - usando novo sistema
         if sprite_manager:

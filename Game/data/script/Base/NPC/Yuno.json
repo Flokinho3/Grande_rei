@@ -13,6 +13,6 @@
         "Prestativa"
     ],
     "humor": "Feliz",
-    "afeto": "+5",
-    "dedicação": "+5"
+    "afeto": 50,
+    "dedicacao": 50
 }
