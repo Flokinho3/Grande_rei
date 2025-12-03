@@ -25,7 +25,7 @@
             "titulo": "Chegada ao Castelo",
             "img_fundo": "cap1_ep1_bg2.png",
             "texto": [
-                "Ao decorrer da viagem é possível ver um muro imenso se aproximando; ao fundo, é possível ver um castelo imponente e majestoso.",
+                "Ao decorrer da viagem, é possível ver um muro imenso se aproximando; ao fundo, um castelo imponente e majestoso.",
                 "Você ainda tem tempo até a chegada da carruagem ao castelo, então aproveita para:"
             ],
             "save_point": true,
@@ -75,7 +75,7 @@
             "img_fundo": "cap1_ep1_bg3.png",
             "texto": [
                 "Você olha pela janela e observa a floresta densa que cerca o castelo. As árvores altas se erguem em direção ao céu, suas copas formando um teto verdejante que filtra a luz do sol.",
-                "Ao longe, é possível ver um coelho em meio à floresta",
+                "Ao longe, é possível ver um coelho em meio à floresta.",
                 "{nome_player}: Na natureza, nada é o que parece!",
                 "{nome_player}: Até o animal mais fofo!",
                 "Durante a viagem, você avista três lobos mortos no chão, um deles sem cabeça.",
@@ -127,12 +127,12 @@
                 "A carruagem finalmente chega ao imponente castelo, suas torres se erguendo majestosamente contra o céu. Você sente uma mistura de ansiedade e excitação enquanto desce da carruagem, pronto para enfrentar os desafios que o aguardam dentro dessas paredes antigas.",
                 "Os guardas na entrada o observam atentamente, avaliando sua presença com olhos experientes. Você sabe que cada movimento será julgado, cada palavra analisada.",
                 "Com um suspiro profundo, você ajusta suas roupas e avança em direção ao portão principal, determinado a mostrar que você é digno de competir pelo Trono Real.",
-                "Ao se aproximar do portão, uma [semi_humana] com orelhas de raposa e cauda peluda de pelagem azul com pontas brancas se aproxima de você.",
+                "Ao se aproximar do portão, uma [semi_humana] com orelhas de raposa e cauda peluda de pelagem azul com pontas brancas dirige-se a você.",
                 "{img_esquerda:yuno}",
-                "{yuno}: Seja bem-vindo ao castelo, [nome_jogador]-sama. Eu sou Yuno, serei sua serva durante a sua estadia!",
+                "{yuno}: Seja bem-vindo ao castelo, [nome_jogador]-sama. Eu sou [yuno], serei sua serva durante a sua estadia!",
                 "{img_esquerda:yuno}",
                 "{yuno}: Estarei ao seu lado durante a ascensão ou sua queda.",
-                "Voce:"
+                "Você:"
             ],
             "save_point": true,
             "opcoes": [
@@ -141,11 +141,11 @@
                     "proximo_id": "2_1"
                 },
                 {
-                    "texto": "[Comprimir a serva de forma sorbeba.]",
+                    "texto": "[Cumprimentar Yuno.]",
                     "proximo_id": "2_2"
                 },
                 {
-                    "texto": "Que diabos e voce? bixo imundo",
+                    "texto": "Que diabos é você? Bicho imundo",
                     "proximo_id": "2_3"
                 },
                 {
@@ -156,7 +156,7 @@
         },
         {
             "id": "2_1",
-            "titulo": "Cumprimento Educado",
+            "titulo": "Chegada ao Castelo",
             "img_fundo": "cap1_ep1_bg4.png",
             "status_infor": {
                 "nome": "Yuno",
@@ -165,13 +165,337 @@
                 "afeto": "+5",
                 "dedicacao": "+5"
             },
+            "infor": ["loop de pergunta ate que o jogador escolha seguir em frente => 2_1_1, 2_1_2, 2_1_3 ou sair 3"],
             "texto": [
                 "Você sorri educadamente para Yuno e faz uma reverência leve.",
-                "{nome_jogador}: Muito prazer em conhecê-la, [yuno]. Agradeço por sua hospitalidade.",
+                "{nome_jogador}: Muito prazer em conhecê-la, [yuno]. Sou [nome_jogador] da casa Shedow.",
+                "{nome_jogador}: Agradeço por sua assistência durante minha estadia aqui.",
                 "{img_esquerda:yuno}",
-                "{yuno}: Estou à sua disposição, [nome_jogador]-sama. Espero que nossa convivência seja agradável e produtiva."
+                "{yuno}: Estou à sua disposição, [nome_jogador]-sama. Espero que nossa convivência seja agradável e produtiva.",
+                "{yuno}: Serei sua guia e apoio em todos os momentos que precisar.",
+                "{yuno}: Antes de entrarmos, tem algo que deseja perguntar?",
+                "{nome_jogador}: Eu quero:"
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "[Perguntar sobre as regras do castelo.]",
+                    "proximo_id": "2_1_1"
+                },
+                {
+                    "texto": "[Perguntar sobre os outros competidores.]",
+                    "proximo_id": "2_1_2"
+                },
+                {
+                    "texto": "[Perguntar sobre ela.]",
+                    "proximo_id": "2_1_3"
+                },
+                {
+                    "texto": "[Agradecer e seguir em frente.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_1_1",
+            "titulo": "Chegada ao Castelo",
+            "img_fundo": "cap1_ep1_bg4.png",
+            
+            "texto": [
+                "Ao perguntar sobre as regras, Yuno assume imediatamente uma postura ereta, as mãos unidas à frente. Seu olhar fixa um ponto no vazio, como se lesse de um script invisível.",
+                "{img_esquerda:yuno}",
+                "Sua voz é clara e projetada, mas completamente plana, sem ênfase emocional.",
+                "{yuno}: Primeira Lei: O Sangue Real é Intocável.",
+                "A competição exige rivalidade, não assassinato.",
+                "Um ato letal contra outro herdeiro resulta na desqualificação imediata do competidor e na retirada de seu servo do cerimonial.",
+                "{yuno}: Segunda Lei: Os Limites do Castelo são Absolutos.",
+                "Esta é sua arena até o fim.",
+                "Tentativas de abandonar o terreno são consideradas desistência. Os servos estão autorizados a... impedir ativamente qualquer fuga.",
+                "{yuno}: Terceira Lei: Cada espaço tem sua Anfitriã.",
+                "Enquanto eu estou sob seu domínio, meus comandos são redirecionados a ela — por protocolo, não por vontade.",
+                "Uma ordem direta dela sobrepõe qualquer instrução que eu tenha recebido de você. É a única exceção à minha obediência.",
+                "(Há uma pausa quase imperceptível. Ela solta as mãos e seu olhar finalmente encontra o seu, mas ainda vazio, como se tivesse acabado de reinicializar)",
+                "{yuno}: Essas são as estruturas que regem tudo aqui. Recomendo que as tenha sempre em mente, [nome_jogador]-sama."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Entendido, obrigado por me informar.",
+                    "proximo_id": "2_1"
+                },
+                {
+                    "texto": "Pode repetir as regras para mim?",
+                    "proximo_id": "2_1_1"
+                },
+                {
+                    "texto": "[Perguntar sobre ela.]",
+                    "proximo_id": "2_1_3"
+                },
+                {
+                    "texto": "[Agradecer e seguir em frente.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_1_2",
+            "titulo": "Chegada ao Castelo",
+            "img_fundo": "cap1_ep1_bg4.png",
+            
+            "texto": [
+                "Você pergunta sobre os competidores. Um leve tremor percorre a cauda de Yuno antes de se imobilizar.",
+                "Ela não quebra a postura, mas há um novo rigor em seus ombros.",
+                "{img_esquerda:yuno}",
+                "Sua voz, antes fluida, ganha uma cadência cuidadosa e medida.",
+                "{yuno}: Os outros filhos das Grandes Casas, [nome_jogador]-sama, chegaram com o mesmo propósito que o seu. Cada um traz sua linhagem e ambição para dentro destas paredes.",
+                "Ela faz uma pausa, seus olhos vasculham ao redor vazio como se procurasse por ouvidos não autorizados.",
+                "{yuno}: Mas sobre seus rostos, seus nomes, os segredos e seus servos...",
+                "De repente, ela se contorce levemente, como se uma corrente invisível apertasse seu peito. As palavras parecem emperrar em sua garganta.",
+                "{yuno}: Eu... não...",
+                "(Ela engole seco, os dedos tremem antes de se fecharem em punhos)",
+                "{yuno}: Perdão, [nome_jogador]-sama. Mas eu não sei.",
+                "Ela toca a própria garganta, um gesto rápido e quase inconsciente, como se conferindo se ainda pode falar.",
+                "{yuno}: Desde filhote, fui treinada **apenas** nos hábitos e costumes da sua Casa.",
+                "{yuno}: Fui ensinada a não me importar com os outros competidores. A nem mesmo guardar seus rostos na memória.",
+                "{yuno}: Minha lealdade é uma seta de um só alvo: você, mestre.",
+                "Ela solta o fôlego num suspiro rouco, quase de alívio, como se tivesse atravessado um campo minado verbal."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Entendido, obrigado por me informar.",
+                    "proximo_id": "2_1"
+                },
+                {
+                    "texto": "[Perguntar sobre as regras do castelo.]",
+                    "proximo_id": "2_1_1"
+                },
+                {
+                    "texto": "[Perguntar sobre ela.]",
+                    "proximo_id": "2_1_3"
+                },
+                {
+                    "texto": "[Agradecer e seguir em frente.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_1_3",
+            "titulo": "Chegada ao Castelo",
+            "img_fundo": "cap1_ep1_bg4.png",
+            
+            "texto": [
+                "Você pergunta sobre ela. Os olhos de Yuno brilham com um fogo súbito, como se você finalmente tivesse feito a pergunta que ela sempre esperou.",
+                "{img_esquerda:yuno}",
+                "{yuno}: Ah, minha história é a mais linda possível, [nome_jogador]-sama!",
+                "{yuno} Sou [yuno], abençoada da linhagem das Raposas de Gelo das Montanhas Eternas!",
+                "{yuno}: Fui **escolhida** da minha matilha no primeiro inverno! O mais belo presente que minha espécie poderia oferecer: minha pelagem azul-branca, selou meu destino glorioso!",
+                "Ela ergue o pulso com um gesto quase eufórico, puxando a manga para revelar a cicatriz prateada.",
+                "{yuno}: Veja! A Marca do Vínculo! Recebi-a dos Sagrados Mestres da Casa Shadow no meu dia de maior honra! Foi quando entendi: meu sangue, minha mente, meu corpo – tudo isso era apenas material bruto, esperando para ser transformado em algo **útil**!",
+                "{yuno}: Meu treinamento foi uma **benção**! Cada osso quebrado me ensinou resiliência! Cada veneno ingerido me purgou do medo! Cada hora de estudo apagou uma ignorância inútil!",
+                "{yuno}: Com cada lição, cada camada do meu 'eu' antigo era **lapidada** para fora.",
+                "{yuno}: Era como tirar a pedra bruta para revelar a lâmina perfeita dentro!",
+                "{yuno}: E o resultado? Este ser diante de você! Meu propósito foi **forjado** em mim, camada por camada, até que só restasse a verdade mais pura: eu não sou nada além da extensão da **sua** vontade!",
+                "(Ela inclina a cabeça, num gesto de devoção extática)",
+                "{yuno}: Use-me! Sou o escudo que alegremente racha por você! Sou a lâmina que anseia pela sua mão guiadora! Sou o ouvido que só existe para sua voz!",
+                "{yuno}: Meu maior triunfo, meu **ápice**, será dar minha vida por você. Pelo meu mestre, eu mato com alegria. E pelo meu mestre, eu morro – não como um sacrifício, mas como a **conclusão lógica e perfeita** da minha existência!"
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Entendido, obrigado por me informar.",
+                    "proximo_id": "2_1"
+                },
+                {
+                    "texto": "[Perguntar sobre as regras do castelo.]",
+                    "proximo_id": "2_1_1"
+                },
+                {
+                    "texto": "[Perguntar sobre os outros competidores.]",
+                    "proximo_id": "2_1_2"
+                },
+                {
+                    "texto": "[Agradecer e seguir em frente.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_2",
+            "titulo": "A Serva da Casa Shadow",
+            "img_fundo": "cap1_ep1_bg4.png",
+            "infor": ["loop de pergunta até que o jogador escolha seguir em frente => 2_2_1, 2_2_2, 2_2_3 ou sair 3"],
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Leal", "Funcional"],
+                "humor": "Neutro",
+                "afeto": "+0",
+                "dedicacao": "+5"
+            },
+            "texto": [
+                "Você acena com a cabeça em um cumprimento seco, mais uma afirmação de status do que uma saudação.",
+                "{nome_jogador}: Sou [nome_jogador]. Herdeiro da Casa Shadow. Você está ciente da responsabilidade que carrega?",
+                "{img_esquerda:yuno}",
+                "{yuno}: Perfeitamente, [nome_jogador]-sama. Minha vida está vinculada à sua linhagem. Minha função é seguir a sua vontade.",
+                "{yuno}: Serei sua sombra nos corredores, sua voz nos conselhos e sua lâmina silenciosa, se assim ordenar.",
+                "{yuno}: Para te servir da melhor forma, gostaria se se informar sobre algo?.",
+                "{nome_jogador}: Eu quero:"
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "[As regras.]",
+                    "proximo_id": "2_2_1"
+                },
+                {
+                    "texto": "[Meus oponentes.]",
+                    "proximo_id": "2_2_2"
+                },
+                {
+                    "texto": "[Quem me serve.]",
+                    "proximo_id": "2_2_3"
+                },
+                {
+                    "texto": "[Entre no castelo.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_2_1",
+            "titulo": "A Serva da Casa Shadow",
+            "img_fundo": "cap1_ep1_bg4.png",
+            
+            "texto": [
+                "Você pergunta sobre as regras do castelo. Yuno responde com precisão mecânica, como se recitasse um manual decorado.",
+                "{img_esquerda:yuno}",
+                "{yuno}: Primeira Lei: O Sangue Real é Intocável.",
+                "A competição exige rivalidade, não assassinato.",
+                "Um ato letal contra outro herdeiro resulta na desqualificação imediata do competidor e na retirada de seu servo do cerimonial.",
+                "{yuno}: Segunda Lei: Os Limites do Castelo são Absolutos.",
+                "Esta é sua arena até o fim.",
+                "Tentativas de abandonar o terreno são consideradas desistência. Os servos estão autorizados a... impedir ativamente qualquer fuga.",
+                "{yuno}: Terceira Lei: Cada espaço tem sua Anfitriã.",
+                "Enquanto eu estou sob seu domínio, meus comandos são redirecionados a ela — por protocolo, não por vontade.",
+                "Uma ordem direta dela sobrepõe qualquer instrução que eu tenha recebido de você. É a única exceção à minha obediência.",
+                "{yuno}: Essas são as estruturas que regem tudo aqui. Recomendo que as tenha sempre em mente, [nome_jogador]-sama."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Entendido, obrigado por me informar.",
+                    "proximo_id": "2_2"
+                },
+                {
+                    "texto": "[Meus oponentes.]",
+                    "proximo_id": "2_2_2"
+                },
+                {
+                    "texto": "[Quem me serve.]",
+                    "proximo_id": "2_2_3"
+                },
+                {
+                    "texto": "[Entre no castelo.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_2_2",
+            "titulo": "A Serva da Casa Shadow",
+            "img_fundo": "cap1_ep1_bg4.png",
+            
+            "texto": [
+                "{yuno}: Os outros filhos das Grandes Casas, [nome_jogador]-sama, chegaram com o mesmo propósito que o seu.",
+                "{yuno}: Cada um traz sua linhagem e ambição para dentro destas paredes.",
+                "{yuno}: Quanto a seus rostos, nomes, segredos… ou até os servos que os acompanham…",
+                "{yuno}: Esses detalhes não me foram concedidos. Fui treinada para não buscá-los.",
+                "{yuno}: Meus olhos só devem se fixar em um alvo: você, mestre."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Entendido, obrigado por me informar.",
+                    "proximo_id": "2_2"
+                },
+                {
+                    "texto": "[As regras.]",
+                    "proximo_id": "2_2_1"
+                },
+                {
+                    "texto": "[Quem me serve.]",
+                    "proximo_id": "2_2_3"
+                },
+                {
+                    "texto": "[Entre no castelo.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_2_3",
+            "titulo": "Quem Me Serve",
+            "img_fundo": "cap1_ep1_bg4.png",
+            "texto": [
+                "Você pergunta sobre ela mesma. Yuno faz uma breve pausa — não de hesitação, mas como quem se prepara para recitar algo sagrado.",
+                "{img_esquerda:yuno}",
+                "{yuno}: Meu nome é Yuno. Fui consagrada à Casa Shadow antes mesmo de me lembrar de mim mesma.",
+                "{yuno}: Tudo o que fui antes disso foi purificado. Tudo o que sou agora existe apenas para servir.",
+                "{yuno}: Não tenho vontade própria. Nem é preciso tê-la. Minha vocação é clara desde o primeiro suspiro sob este novo nome.",
+                "{yuno}: Se um dia eu falhar, será por imperfeição minha — e serei retirada com justiça.",
+                "{yuno}: Até lá, estou à sua disposição, [nome_jogador]-sama."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Entendido, obrigado por me informar.",
+                    "proximo_id": "2_2"
+                },
+                {
+                    "texto": "[As regras.]",
+                    "proximo_id": "2_2_1"
+                },
+                {
+                    "texto": "[Meus oponentes.]",
+                    "proximo_id": "2_2_2"
+                },
+                {
+                    "texto": "[Entre no castelo.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_3",
+            "titulo": "Isso é um Bicho Imundo",
+            "img_fundo": "cap1_ep1_bg4.png",
+            "texto": [
+                "Você olha para Yuno com desprezo, sua voz carregada de desdém.",
+                "{nome_jogador}: Que diabos é você? Bicho imundo.",
+                "{img_esquerda:yuno}",
+                "Yuno recua — só um passo, quase involuntário. Seus olhos se arregalam por um instante, como se seu corpo tivesse ouvido algo que sua mente ainda tenta negar.",
+                "Ela engole em seco. Suas mãos se fecham levemente, depois se abrem, forçando-se à calma.",
+                "{yuno}: ...Entendo, [nome_jogador]-sama.",
+                "{yuno}: Meu nome é [yuno]. Fui designada para servi-lo durante o cerimonial.",
+                "{yuno}: Sinto muito... se não sou digna do seu respeito.",
+                "{yuno}: Farei o que for preciso para corrigir isso."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "[Fala logo, bicho peludo.]",
+                    "proximo_id": "2_1"
+                },
+                {
+                    "texto": "[Quem são os perdedores?]",
+                    "proximo_id": "2_4"
+                },
+                {
+                    "texto": "[Ignore isso e entre no castelo.]",
+                    "proximo_id": "3"
+                }
             ]
         }
-        
     ]
 }
