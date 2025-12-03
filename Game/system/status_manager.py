@@ -21,6 +21,7 @@ class StatusManager:
         """
         self.characters = characters
         self.base_dir = base_dir or os.path.join('Game', 'data', 'script', 'Base')
+        self.applied_status_ids = set()  # Rastreia IDs já aplicados
         
     def apply_status_infor(self, status: dict) -> bool:
         """
@@ -35,6 +36,13 @@ class StatusManager:
         Raises:
             ValueError: Se o status não contém o campo 'nome'
         """
+        # Verifica se tem ID e se já foi aplicado
+        status_id = status.get('ID')
+        if status_id:
+            if status_id in self.applied_status_ids:
+                print(f"[STATUS_MANAGER] Status ID '{status_id}' já foi aplicado anteriormente. Ignorando.")
+                return False
+        
         target_name = status.get('nome')
         if not target_name:
             raise ValueError('status_infor não contém campo "nome"')
@@ -86,6 +94,11 @@ class StatusManager:
         if mem_key:
             self.characters[mem_key] = merged_data
             print(f"[STATUS_MANAGER] Personagem '{mem_key}' atualizado em memória")
+        
+        # Adiciona ID ao conjunto de IDs aplicados
+        if status_id:
+            self.applied_status_ids.add(status_id)
+            print(f"[STATUS_MANAGER] ID '{status_id}' registrado como aplicado")
             
         return True
         

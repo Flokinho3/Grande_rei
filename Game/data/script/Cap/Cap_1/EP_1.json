@@ -155,15 +155,45 @@
             ]
         },
         {
+            "id": "2_4",
+            "titulo": "Ignorando a Serva",
+            "img_fundo": "cap1_ep1_bg4.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Confusa", "Insegura"],
+                "pensamentos": ["Meu mestre me despreza", "Devo seguir minha funcao"],
+                "humor": "Triste",
+                "afeto": "-5",
+                "dedicacao": "+5",
+                "mental": "-5",
+                "ID": "2_4"
+            },
+            "texto": [
+                "Você a ignora completamente, seguindo em direção ao castelo sem dizer uma palavra.",
+                "{img_esquerda:yuno}",
+                "Yuno fica parada por um momento.",
+                "Ela respira fundo, tentando manter a compostura, antes de se virar e seguir atrás de você, pronta para cumprir seu dever como serva."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "[Continue em direção ao castelo.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
             "id": "2_1",
             "titulo": "Chegada ao Castelo",
             "img_fundo": "cap1_ep1_bg4.png",
             "status_infor": {
                 "nome": "Yuno",
                 "status": ["Amigável", "Prestativa"],
+                "pensamentos": ["Ele  me ve como alguém digna", "Eu sou util a meu mestre"],
                 "humor": "Feliz",
                 "afeto": "+5",
-                "dedicacao": "+5"
+                "dedicacao": "+5",
+                "ID": "2_1"
             },
             "infor": ["loop de pergunta ate que o jogador escolha seguir em frente => 2_1_1, 2_1_2, 2_1_3 ou sair 3"],
             "texto": [
@@ -200,7 +230,15 @@
             "id": "2_1_1",
             "titulo": "Chegada ao Castelo",
             "img_fundo": "cap1_ep1_bg4.png",
-            
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Amigável", "Prestativa"],
+                "pensamentos": ["Meu mestre nao sabia sobre as regras do castelo", "Eu sou util a meu mestre"],
+                "humor": "Feliz",
+                "afeto": "+5",
+                "dedicacao": "+5",
+                "ID": "2_1_1"
+            },
             "texto": [
                 "Ao perguntar sobre as regras, Yuno assume imediatamente uma postura ereta, as mãos unidas à frente. Seu olhar fixa um ponto no vazio, como se lesse de um script invisível.",
                 "{img_esquerda:yuno}",
@@ -241,6 +279,15 @@
             "id": "2_1_2",
             "titulo": "Chegada ao Castelo",
             "img_fundo": "cap1_ep1_bg4.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Amigável", "Prestativa"],
+                "pensamentos": ["Nao fui capas de informar sobre os competidores", "Devo ser mais prestativa ao meu mestre"],
+                "humor": "Feliz",
+                "afeto": "+5",
+                "dedicacao": "+5",
+                "ID": "2_1_2"
+            },
             
             "texto": [
                 "Você pergunta sobre os competidores. Um leve tremor percorre a cauda de Yuno antes de se imobilizar.",
@@ -284,6 +331,15 @@
             "id": "2_1_3",
             "titulo": "Chegada ao Castelo",
             "img_fundo": "cap1_ep1_bg4.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Amigável", "Prestativa"],
+                "pensamentos": ["Ele... se importa comigo?", "Serei util a meu mestre"],
+                "humor": "Feliz",
+                "afeto": "+10",
+                "dedicacao": "+10",
+                "ID": "2_1_3"
+            },
             
             "texto": [
                 "Você pergunta sobre ela. Os olhos de Yuno brilham com um fogo súbito, como se você finalmente tivesse feito a pergunta que ela sempre esperou.",
@@ -328,10 +384,11 @@
             "infor": ["loop de pergunta até que o jogador escolha seguir em frente => 2_2_1, 2_2_2, 2_2_3 ou sair 3"],
             "status_infor": {
                 "nome": "Yuno",
-                "status": ["Leal", "Funcional"],
+                "status": ["Devoção ao meu mestre", "Devo ser mais util"],
                 "humor": "Neutro",
                 "afeto": "+0",
-                "dedicacao": "+5"
+                "dedicacao": "+5",
+                "ID": "2_2"
             },
             "texto": [
                 "Você acena com a cabeça em um cumprimento seco, mais uma afirmação de status do que uma saudação.",
@@ -366,7 +423,14 @@
             "id": "2_2_1",
             "titulo": "A Serva da Casa Shadow",
             "img_fundo": "cap1_ep1_bg4.png",
-            
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Meu mestre nao sabia sobre as regras", "Fui util para meu mestre"],
+                "humor": "Neutro",
+                "afeto": "+0",
+                "dedicacao": "+5",
+                "ID": "2_2_1"
+            },
             "texto": [
                 "Você pergunta sobre as regras do castelo. Yuno responde com precisão mecânica, como se recitasse um manual decorado.",
                 "{img_esquerda:yuno}",
@@ -405,6 +469,14 @@
             "id": "2_2_2",
             "titulo": "A Serva da Casa Shadow",
             "img_fundo": "cap1_ep1_bg4.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Nao fui capas de informar sobre os competidores", "Nao posso ser uma flalha para meu mestre"],
+                "humor": "Neutro",
+                "afeto": "+0",
+                "dedicacao": "+5",
+                "ID": "2_2_2"
+            },
             
             "texto": [
                 "{yuno}: Os outros filhos das Grandes Casas, [nome_jogador]-sama, chegaram com o mesmo propósito que o seu.",
@@ -437,6 +509,14 @@
             "id": "2_2_3",
             "titulo": "Quem Me Serve",
             "img_fundo": "cap1_ep1_bg4.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Isso e relevante?", "Serei util a meu mestre"],
+                "humor": "Neutro",
+                "afeto": "+0",
+                "dedicacao": "+5",
+                "ID": "2_2_3"
+            },
             "texto": [
                 "Você pergunta sobre ela mesma. Yuno faz uma breve pausa — não de hesitação, mas como quem se prepara para recitar algo sagrado.",
                 "{img_esquerda:yuno}",
@@ -470,6 +550,16 @@
             "id": "2_3",
             "titulo": "Isso é um Bicho Imundo",
             "img_fundo": "cap1_ep1_bg4.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Asustada"],
+                "pensamentos": ["Meu mestre me despreza", "Devo seguir minha funcao"],
+                "humor": "Triste",
+                "afeto": "-10",
+                "dedicacao": "+10",
+                "mental": "-10",
+                "ID": "2_3"
+            },
             "texto": [
                 "Você olha para Yuno com desprezo, sua voz carregada de desdém.",
                 "{nome_jogador}: Que diabos é você? Bicho imundo.",
@@ -485,17 +575,106 @@
             "opcoes": [
                 {
                     "texto": "[Fala logo, bicho peludo.]",
-                    "proximo_id": "2_1"
+                    "proximo_id": "2_3_1"
                 },
                 {
                     "texto": "[Quem são os perdedores?]",
-                    "proximo_id": "2_4"
+                    "proximo_id": "2_3_2"
                 },
                 {
                     "texto": "[Ignore isso e entre no castelo.]",
                     "proximo_id": "3"
                 }
             ]
+        },
+        {
+            "id": "2_3_1",
+            "titulo": "Fala Logo, Bicho Peludo",
+            "img_fundo": "cap1_ep1_bg4.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Obediente", "Ansiosa para provar valor"],
+                "pensamentos": ["Ele quer eficiência, não palavras", "Se eu falhar agora, sou inútil"],
+                "humor": "Tenso",
+                "afeto": "-10",
+                "dedicacao": "+15",
+                "mental": "-15",
+                "ID": "2_3_1"
+            },
+            "texto": [
+                "Você a encara com impaciência, quase desdenhando de sua existência.",
+                "{nome_jogador}: Fala logo, bicho peludo. Não tenho tempo para sua lenga-lenga.",
+                "{img_esquerda:yuno}",
+                "Yuno abaixa a cabeça imediatamente, mas seus olhos brilham com uma determinação quase febril.",
+                "{yuno}: Perdoe minha ineficiência, mestre.",
+                "{yuno}: As regras são simples: não mate herdeiros, não fuja, obedeça às Anfitriãs. Tudo o mais... é permitido.",
+                "{yuno}: Quanto aos outros competidores — são fracos. Alguns já demonstraram hesitação. São fáceis de manipular.",
+                "{yuno}: Se desejar, posso... facilitar sua ascensão. Antes mesmo que peças.",
+                "Ela ergue o olhar por um instante — não com desafio, mas com uma devoção tão intensa que beira o terror.",
+                "{yuno}: Diga apenas uma palavra, mestre. Eu já estarei agindo."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "[Quem são os perdedores?]",
+                    "proximo_id": "2_3_2"
+                },
+                {
+                    "texto": "[Ignore isso e entre no castelo.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "2_3_2",
+            "titulo": "Quem São os Perdedores?",
+            "img_fundo": "cap1_ep1_bg5.png",
+            "status_infor": {
+                "nome": "Yuno",
+                "status": ["Obediente", "Ansiosa para provar valor"],
+                "pensamentos": ["Ele quer saber quem eliminar", "Não posso falhar em adivinhar"],
+                "humor": "Tenso",
+                "afeto": "-10",
+                "dedicacao": "+15",
+                "mental": "-15",
+                "ID": "2_3_2"
+            },
+            "texto": [
+                "{nome_jogador}: Quem são os perdedores?",
+                "{img_esquerda:yuno}",
+                "Yuno hesita — não por indecisão, mas porque a pergunta toca um limite que nem ela pode cruzar.",
+                "Seus olhos buscam os seus, como se pedissem licença para falar além do permitido.",
+                "{yuno}: ...Não me foi dado conhecer seus nomes, rostos ou fraquezas, mestre.",
+                "{yuno}: Fui treinada para ver apenas um herdeiro digno neste castelo.",
+                "{yuno}: E esse herdeiro... é você.",
+                "Ela inclina a cabeça, voz baixa, quase sussurrando:",
+                "{yuno}: Quanto aos outros?",
+                "{yuno}: Não importa quem são. Como se tivessem alguma chance contra você? São apenas degraus que você pisará rumo ao trono.",
+                "{yuno}: E isso já os condena."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "[Você acha mesmo isso?]",
+                    "proximo_id": "2_3_3"
+                },
+                {
+                    "texto": "[Ignore isso e entre no castelo.]",
+                    "proximo_id": "3"
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "titulo": "Castelo - Entrada",
+            "img_fundo": "cap1_ep1_bg4.png",
+            "texto": [
+                "Apos ciente de seu servo, você adentra o castelo, pronto para enfrentar os desafios que o aguardam.",
+                "As paredes altas e imponentes do castelo se erguem ao seu redor, adornadas com tapeçarias ricas e brasões das Grandes Casas.",
+                "O som dos seus passos ecoa pelos corredores enquanto você avança, cada passo o aproximando mais do trono que almeja.",
+                "Você sabe que a jornada será cheia de perigos e intrigas, mas com Yuno ao seu lado, você se sente preparado para enfrentar qualquer desafio."
+            ],
+            "save_point": true
         }
     ]
 }

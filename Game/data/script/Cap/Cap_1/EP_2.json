@@ -1,0 +1,108 @@
+{
+    "EP_2": [
+        {
+            "id": "1",
+            "titulo": "Início do Episódio 2",
+            "img_fundo": "cap1_ep2_bg.png",
+            "condicao": [
+                {
+                    "dev": "tratou mal",
+                    "yuno_humor": "Triste",
+                    "yuno_afeto": "<=0",
+                    "proximo_id": "1_1"
+                },
+                {
+                    "dev": "tratou bem",
+                    "yuno_humor": "Feliz",
+                    "yuno_afeto": ">=10",
+                    "proximo_id": "1_2"
+                },
+                {
+                    "dev": "tratou normal",
+                    "yuno_humor": "Neutro",
+                    "yuno_afeto": "1-9",
+                    "proximo_id": "1_3"
+                }
+            ]
+        },
+        {
+            "id": "1_1",
+            "titulo": "Caminho - Tratou Mal",
+            "img_fundo": "cap1_ep2_bg.png",
+            "texto": [
+                "{img_esquerda:yuno}",
+                "Yuno se aproxima, mas mantém distância, seus olhos evitando os seus.",
+                "{yuno}: [nome_jogador]-sama... Como posso servi-lo hoje?",
+                "Sua voz é plana, quase mecânica. Não há calor, apenas obediência fria."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Você parece distante, Yuno.",
+                    "proximo_id": "2"
+                },
+                {
+                    "texto": "Apenas faça seu trabalho.",
+                    "proximo_id": "2"
+                }
+            ]
+        },
+        {
+            "id": "1_2",
+            "titulo": "Caminho - Tratou Bem",
+            "img_fundo": "cap1_ep2_bg.png",
+            "texto": [
+                "{img_esquerda:yuno}",
+                "Yuno se aproxima com um sorriso genuíno, sua cauda balançando levemente.",
+                "{yuno}: Bom dia, [nome_jogador]-sama! Espero que tenha descansado bem!",
+                "Há leveza em sua voz, uma alegria que não pode ser fingida."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Bom dia, Yuno. Como você está?",
+                    "proximo_id": "2"
+                },
+                {
+                    "texto": "Vamos começar o dia.",
+                    "proximo_id": "2"
+                }
+            ]
+        },
+        {
+            "id": "1_3",
+            "titulo": "Caminho - Tratou Normal",
+            "img_fundo": "cap1_ep2_bg.png",
+            "texto": [
+                "{img_esquerda:yuno}",
+                "Yuno se aproxima com postura profissional, fazendo uma reverência respeitosa.",
+                "{yuno}: Bom dia, [nome_jogador]-sama. Estou pronta para mais um dia de serviço.",
+                "Sua voz é cortês e neutra - nem fria, nem calorosa."
+            ],
+            "save_point": true,
+            "opcoes": [
+                {
+                    "texto": "Ótimo, vamos começar.",
+                    "proximo_id": "2"
+                },
+                {
+                    "texto": "Como foi sua noite?",
+                    "proximo_id": "2",
+                    "condicao": {
+                        "yuno_afeto": ">=5"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "titulo": "Continuação do EP_2",
+            "img_fundo": "cap1_ep2_bg.png",
+            "texto": [
+                "Este é o restante do episódio 2...",
+                "O sistema de condições está funcionando!"
+            ],
+            "save_point": true
+        }
+    ]
+}

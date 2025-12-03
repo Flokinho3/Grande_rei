@@ -8,8 +8,17 @@
     "inventario": [],
     "estatus": [],
     "img": "yuno.png",
+    "ID": "2_4",
     "status": [
-        "Amigável",
-        "Prestativa"
-    ]
+        "Confusa",
+        "Insegura"
+    ],
+    "pensamentos": [
+        "Meu mestre me despreza",
+        "Devo seguir minha funcao"
+    ],
+    "humor": "Triste",
+    "afeto": -10,
+    "dedicacao": 10,
+    "mental": -10
 }

@@ -50,7 +50,7 @@ def main():
     renderer = Renderer(screen, font, title_font, SCREEN_WIDTH, SCREEN_HEIGHT, WHITE, BLACK, GRAY)
     setattr(renderer, "text_processor", text_processor)
 
-    game = Game(scenes, scenes_order, characters, player_name, player_data, renderer, clock)
+    game = Game(scenes, scenes_order, characters, player_name, player_data, renderer, clock, data_loader)
     game.run()
 
 if __name__ == "__main__":

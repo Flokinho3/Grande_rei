@@ -30,16 +30,20 @@ class SaveManager:
             player_data: Dados do jogador para fallback caso não exista save
             
         Returns:
-            Dicionário com 'current_scene_id' e 'current_text_index'
+            Dicionário com 'current_scene_id', 'current_text_index', 'episode' e 'chapter'
         """
         if os.path.exists(self.save_file_path):
             try:
                 with open(self.save_file_path, 'r', encoding='utf-8') as f:
                     save_data = json.load(f)
-                print(f"[SAVE_MANAGER] Save carregado: cena {save_data.get('current_scene_id')}")
+                episode = save_data.get('episode', 1)
+                chapter = save_data.get('chapter', 1)
+                print(f"[SAVE_MANAGER] Save carregado: Cap {chapter}, EP {episode}, cena {save_data.get('current_scene_id')}")
                 return {
                     'current_scene_id': save_data.get('current_scene_id', '1'),
-                    'current_text_index': save_data.get('current_text_index', 1)
+                    'current_text_index': save_data.get('current_text_index', 1),
+                    'episode': episode,
+                    'chapter': chapter
                 }
             except Exception as e:
                 print(f"[SAVE_MANAGER] ERRO ao carregar save: {e}")
@@ -48,36 +52,44 @@ class SaveManager:
         if player_data and 'save' in player_data:
             return {
                 'current_scene_id': player_data['save'].get('Cena', '1'),
-                'current_text_index': 1
+                'current_text_index': 1,
+                'episode': 1,
+                'chapter': 1
             }
             
         # Default inicial
         return {
             'current_scene_id': '1',
-            'current_text_index': 1
+            'current_text_index': 1,
+            'episode': 1,
+            'chapter': 1
         }
         
-    def save_game_state(self, scene_id: str, text_index: int) -> bool:
+    def save_game_state(self, scene_id: str, text_index: int, episode: int = 1, chapter: int = 1) -> bool:
         """
         Salva o estado atual do jogo
         
         Args:
             scene_id: ID da cena atual
             text_index: Índice de texto atual
+            episode: Número do episódio atual
+            chapter: Número do capítulo atual
             
         Returns:
             True se salvou com sucesso, False caso contrário
         """
         save_data = {
             'current_scene_id': scene_id,
-            'current_text_index': text_index
+            'current_text_index': text_index,
+            'episode': episode,
+            'chapter': chapter
         }
         
         try:
             os.makedirs(self.save_dir, exist_ok=True)
             with open(self.save_file_path, 'w', encoding='utf-8') as f:
                 json.dump(save_data, f, indent=4, ensure_ascii=False)
-            print(f"[SAVE_MANAGER] Jogo salvo: cena {scene_id}, linha {text_index}")
+            print(f"[SAVE_MANAGER] Jogo salvo: Cap {chapter}, EP {episode}, cena {scene_id}, linha {text_index}")
             return True
         except Exception as e:
             print(f"[SAVE_MANAGER] ERRO ao salvar jogo: {e}")
@@ -102,7 +114,7 @@ class SaveManager:
             print(f"[SAVE_MANAGER] ERRO ao salvar dados do jogador: {e}")
             return False
             
-    def save_complete(self, scene_id: str, text_index: int, player_data: dict) -> bool:
+    def save_complete(self, scene_id: str, text_index: int, player_data: dict, episode: int = 1, chapter: int = 1) -> bool:
         """
         Salva tanto o estado do jogo quanto os dados do jogador
         
@@ -110,13 +122,15 @@ class SaveManager:
             scene_id: ID da cena atual
             text_index: Índice de texto atual
             player_data: Dados completos do jogador
+            episode: Número do episódio atual
+            chapter: Número do capítulo atual
             
         Returns:
-            True se ambos salvaram com sucesso
+            True se ambos salvaram com sucesso, False caso contrário
         """
-        state_saved = self.save_game_state(scene_id, text_index)
+        game_saved = self.save_game_state(scene_id, text_index, episode, chapter)
         player_saved = self.save_player_data(player_data)
-        return state_saved and player_saved
+        return game_saved and player_saved
         
     def delete_save(self) -> bool:
         """

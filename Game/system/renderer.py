@@ -32,7 +32,7 @@ class Renderer:
         # Sistema de backgrounds
         self.background_manager = BackgroundManager(screen_width, screen_height)
 
-    def display_scene(self, scene, player_name, text_index, characters, text_processor, buttons=None, sprite_manager=None, item_notification=None):
+    def display_scene(self, scene, player_name, text_index, characters, text_processor, buttons=None, sprite_manager=None, item_notification=None, condition_evaluator=None):
         # Always clear the screen with background color first
         self.screen.fill(self.ui_manager.background_color)
 
@@ -104,11 +104,18 @@ class Renderer:
         if 'opcoes' in scene and text_index >= len(scene['texto']):
             # Se não houver buttons passados, crie novos
             if buttons is None:
+                # Filtra opções baseado em condições
+                opcoes_filtradas = scene['opcoes']
+                if condition_evaluator:
+                    opcoes_filtradas = condition_evaluator.filter_options_by_conditions(scene['opcoes'])
+                    if len(opcoes_filtradas) < len(scene['opcoes']):
+                        print(f"[RENDERER] Opções filtradas: {len(scene['opcoes'])} -> {len(opcoes_filtradas)}")
+                
                 # start roughly above the text box, centered vertically between top and text box
                 available_bottom = box_y
-                total_h = len(scene['opcoes']) * int(self.ui_manager.screen_height * 0.06)
+                total_h = len(opcoes_filtradas) * int(self.ui_manager.screen_height * 0.06)
                 start_y = max(available_bottom // 2 - total_h // 2, int(self.screen_height * 0.15))
-                buttons = self.ui_manager.create_buttons(scene['opcoes'], start_y)
+                buttons = self.ui_manager.create_buttons(opcoes_filtradas, start_y)
 
             # Desenha os botões atuais (se houver)
             if buttons:

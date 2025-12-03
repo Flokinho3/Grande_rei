@@ -6,15 +6,17 @@ Responsabilidade: Gerenciar o loop de jogo, eventos de input e progressão de ce
 import pygame
 import sys
 import re
+import os
 
 from .sprite_command_parser import SpriteCommandParser
 from .save_manager import SaveManager
 from .status_manager import StatusManager
 from .item_notification_manager import ItemNotificationManager
+from .condition_evaluator import ConditionEvaluator
 
 
 class Game:
-    def __init__(self, scenes, scenes_order, characters, player_name, player_data, renderer, clock):
+    def __init__(self, scenes, scenes_order, characters, player_name, player_data, renderer, clock, data_loader=None):
         self.scenes = scenes
         self.scenes_order = scenes_order
         self.characters = characters
@@ -25,6 +27,7 @@ class Game:
         self.player_data = player_data
         self.renderer = renderer
         self.clock = clock
+        self.data_loader = data_loader  # Referência ao DataLoader para transição entre episódios
         self.current_scene_id = "1"
         self.current_text_index = 1
         self.inventory = self.player_data.get('inventario', [])
@@ -34,6 +37,7 @@ class Game:
         self.save_manager = SaveManager()
         self.status_manager = StatusManager(self.characters)
         self.notification_manager = ItemNotificationManager(duration=180, fps=60)
+        self.condition_evaluator = ConditionEvaluator(self.characters, self.player_data)
         
         # Carrega estado inicial
         self._load_initial_state()
@@ -43,6 +47,18 @@ class Game:
         state = self.save_manager.load_game_state(self.player_data)
         self.current_scene_id = state['current_scene_id']
         self.current_text_index = state['current_text_index']
+        
+        # Se o save indica um episódio diferente, carrega ele
+        saved_episode = state.get('episode', 1)
+        saved_chapter = state.get('chapter', 1)
+        
+        if self.data_loader and (saved_episode != self.data_loader.current_episode or saved_chapter != self.data_loader.current_chapter):
+            episode_path = f'Game/data/script/Cap/Cap_{saved_chapter}/EP_{saved_episode}.json'
+            if os.path.exists(episode_path):
+                print(f"[GAME] Carregando episódio salvo: Cap {saved_chapter}, EP {saved_episode}")
+                new_scenes, new_order = self.data_loader.load_scenes(episode_path)
+                self.scenes = new_scenes
+                self.scenes_order = new_order
 
     def run(self):
         running = True
@@ -58,12 +74,29 @@ class Game:
             if last_scene_id != self.current_scene_id:
                 buttons = None
                 last_scene_id = self.current_scene_id
+                
+                # Avaliar condições de cena (se existir)
+                next_scene_from_condition = self.condition_evaluator.evaluate_scene_conditions(scene)
+                if next_scene_from_condition:
+                    self.current_scene_id = next_scene_from_condition
+                    self.current_text_index = 1
+                    # Recarrega a cena com o ID correto
+                    scene = self.scenes.get(self.current_scene_id)
+                    if not scene:
+                        print(f"[GAME] ERRO: Cena '{self.current_scene_id}' não encontrada")
+                        running = False
+                        continue
+                
                 # Handle save_point usando SaveManager
                 if 'save_point' in scene and scene['save_point']:
+                    episode = self.data_loader.current_episode if self.data_loader else 1
+                    chapter = self.data_loader.current_chapter if self.data_loader else 1
                     self.save_manager.save_complete(
                         self.current_scene_id,
                         self.current_text_index,
-                        self.player_data
+                        self.player_data,
+                        episode,
+                        chapter
                     )
                     
                 # Handle add_item usando ItemNotificationManager
@@ -133,6 +166,18 @@ class Game:
                                         if idx + 1 < len(self.scenes_order):
                                             self.current_scene_id = self.scenes_order[idx + 1]
                                             self.current_text_index = 1
+                                        else:
+                                            # Chegou ao fim do episódio, tenta carregar próximo
+                                            if self.data_loader:
+                                                new_scenes, new_order = self.data_loader.load_next_episode()
+                                                if new_scenes and new_order:
+                                                    print(f"[GAME] Transição para próximo episódio")
+                                                    self.scenes = new_scenes
+                                                    self.scenes_order = new_order
+                                                    self.current_scene_id = new_order[0] if new_order else "1"
+                                                    self.current_text_index = 1
+                                                else:
+                                                    print(f"[GAME] Fim do conteúdo - nenhum episódio seguinte encontrado")
                                     except ValueError:
                                         pass
                 elif event.type == pygame.MOUSEBUTTONDOWN and buttons:
@@ -157,7 +202,8 @@ class Game:
                 self.renderer.text_processor, 
                 buttons, 
                 self.sprite_manager, 
-                current_notification
+                current_notification,
+                self.condition_evaluator
             )
 
             # Cap frame rate
