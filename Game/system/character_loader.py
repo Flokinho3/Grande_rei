@@ -9,6 +9,8 @@ class CharacterLoader:
         base_dir = 'Game/data/script/Base'
         if os.path.exists(base_dir):
             for root, dirs, files in os.walk(base_dir):
+                # Pula diretórios de configuração
+                dirs[:] = [d for d in dirs if d != 'config']
                 for file in files:
                     if file.endswith('.json'):
                         file_path = os.path.join(root, file)
@@ -18,7 +20,9 @@ class CharacterLoader:
                         color = tuple(map(int, data['cor'].split(',')))
                         img = data.get('img')
                         print(f"[DEBUG LOADER] Carregando {file}: nome={name}, img={img}")
-                        characters[name] = {'color': color, 'img': img}
+                        # Carrega todos os dados do personagem, não apenas color e img
+                        characters[name] = data.copy()
+                        characters[name]['color'] = color  # Substitui a string 'cor' pela tupla
                         if 'save' in data:
                             player_name = name
                             player_data = data

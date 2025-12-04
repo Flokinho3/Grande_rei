@@ -5,13 +5,13 @@ Responsabilidade: Aplicar e persistir mudanças nos dados dos personagens (statu
 
 import json
 import os
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 
 class StatusManager:
     """Gerencia atualizações de status dos personagens"""
     
-    def __init__(self, characters: Dict[str, Dict], base_dir: str = None):
+    def __init__(self, characters: Dict[str, Dict], base_dir: Optional[str] = None):
         """
         Inicializa o gerenciador de status
         
@@ -21,7 +21,7 @@ class StatusManager:
         """
         self.characters = characters
         self.base_dir = base_dir or os.path.join('Game', 'data', 'script', 'Base')
-        self.applied_status_ids = set()  # Rastreia IDs já aplicados
+        self.applied_status_ids = []  # Lista para manter histórico de IDs aplicados
         
     def apply_status_infor(self, status: dict) -> bool:
         """
@@ -36,12 +36,28 @@ class StatusManager:
         Raises:
             ValueError: Se o status não contém o campo 'nome'
         """
-        # Verifica se tem ID e se já foi aplicado
+        # Verifica se tem ID e se já foi aplicado (verifica no arquivo do personagem)
         status_id = status.get('ID')
         if status_id:
-            if status_id in self.applied_status_ids:
-                print(f"[STATUS_MANAGER] Status ID '{status_id}' já foi aplicado anteriormente. Ignorando.")
-                return False
+            # Busca o arquivo do personagem para verificar IDs já aplicados
+            target_name = status.get('nome')
+            if target_name:
+                target_norm = target_name.strip().lower()
+                file_path = self._find_character_file(target_norm)
+                
+                if file_path:
+                    try:
+                        with open(file_path, 'r', encoding='utf-8') as f:
+                            file_data = json.load(f)
+                        
+                        # Verifica se o ID já foi aplicado (campo ID deve ser lista no arquivo)
+                        applied_ids = file_data.get('ID', [])
+                        if isinstance(applied_ids, list) and status_id in applied_ids:
+                            print(f"[STATUS_MANAGER] Status ID '{status_id}' já foi aplicado ao personagem '{target_name}'. Ignorando.")
+                            return False
+                    except Exception as e:
+                        print(f"[STATUS_MANAGER] ERRO ao verificar IDs aplicados: {e}")
+                        # Continua normalmente se não conseguir verificar
         
         target_name = status.get('nome')
         if not target_name:
@@ -80,6 +96,20 @@ class StatusManager:
         # Mescla os dados
         merged_data = self._merge_status_into_dict(file_data, status)
         
+        # Aplica limites de configuração se existir
+        config = self._load_character_config(target_name)
+        if config:
+            for attr, limits in config.items():
+                if attr in merged_data:
+                    min_val = limits.get('min', -float('inf'))
+                    max_val = limits.get('max', float('inf'))
+                    current_val = merged_data[attr]
+                    if isinstance(current_val, (int, float)):
+                        clamped_val = max(min_val, min(current_val, max_val))
+                        if clamped_val != current_val:
+                            print(f"[STATUS_MANAGER] {attr}: {current_val} clamped to {clamped_val} (min={min_val}, max={max_val})")
+                        merged_data[attr] = clamped_val
+        
         # Salva de volta no arquivo
         try:
             with open(file_path, 'w', encoding='utf-8') as f:
@@ -95,38 +125,55 @@ class StatusManager:
             self.characters[mem_key] = merged_data
             print(f"[STATUS_MANAGER] Personagem '{mem_key}' atualizado em memória")
         
-        # Adiciona ID ao conjunto de IDs aplicados
+        # Adiciona ID ao histórico do personagem após aplicação bem-sucedida
         if status_id:
-            self.applied_status_ids.add(status_id)
-            print(f"[STATUS_MANAGER] ID '{status_id}' registrado como aplicado")
+            # Busca o arquivo do personagem para adicionar o ID
+            target_name = status.get('nome')
+            if target_name:
+                target_norm = target_name.strip().lower()
+                file_path = self._find_character_file(target_norm)
+                
+                if file_path:
+                    try:
+                        with open(file_path, 'r', encoding='utf-8') as f:
+                            file_data = json.load(f)
+                        
+                        # Adiciona ID à lista de IDs aplicados
+                        applied_ids = file_data.get('ID', [])
+                        if not isinstance(applied_ids, list):
+                            applied_ids = []
+                        
+                        if status_id not in applied_ids:
+                            applied_ids.append(status_id)
+                            file_data['ID'] = applied_ids
+                            
+                            # Salva de volta no arquivo
+                            with open(file_path, 'w', encoding='utf-8') as f:
+                                json.dump(file_data, f, indent=4, ensure_ascii=False)
+                            
+                            print(f"[STATUS_MANAGER] ID '{status_id}' registrado no personagem '{target_name}'")
+                    except Exception as e:
+                        print(f"[STATUS_MANAGER] ERRO ao registrar ID no personagem: {e}")
             
         return True
         
-    def _find_character_file(self, target_name_normalized: str) -> str:
+    def _load_character_config(self, character_name: str) -> Optional[Dict[str, Dict[str, int]]]:
         """
-        Busca o arquivo JSON de um personagem pelo nome normalizado
+        Carrega a configuração de limites para um personagem
         
         Args:
-            target_name_normalized: Nome do personagem em lowercase
+            character_name: Nome do personagem
             
         Returns:
-            Caminho completo do arquivo ou None se não encontrar
+            Dicionário com limites de atributos ou None se não encontrar
         """
-        for root, _, files in os.walk(self.base_dir):
-            for fname in files:
-                if not fname.lower().endswith('.json'):
-                    continue
-                    
-                candidate = os.path.join(root, fname)
-                try:
-                    with open(candidate, 'r', encoding='utf-8') as f:
-                        data = json.load(f)
-                    nome_field = data.get('nome', '')
-                    if isinstance(nome_field, str) and nome_field.strip().lower() == target_name_normalized:
-                        return candidate
-                except Exception:
-                    continue
-                    
+        config_path = os.path.join(self.base_dir, 'NPC', 'config', f'{character_name.lower()}_config.json')
+        if os.path.exists(config_path):
+            try:
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"[STATUS_MANAGER] ERRO ao carregar config do personagem '{character_name}': {e}")
         return None
         
     def _merge_status_into_dict(self, original: dict, status: dict) -> dict:
@@ -152,6 +199,10 @@ class StatusManager:
             if k == 'nome':
                 # Atualiza o nome apenas se diferente
                 result['nome'] = v
+                continue
+                
+            if k == 'ID':
+                # Campo ID é gerenciado separadamente - não sobrescrever
                 continue
                 
             if isinstance(v, list):

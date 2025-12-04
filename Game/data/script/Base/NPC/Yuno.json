@@ -8,17 +8,23 @@
     "inventario": [],
     "estatus": [],
     "img": "yuno.png",
-    "ID": "2_4",
     "status": [
-        "Confusa",
-        "Insegura"
+        "Amigável",
+        "Prestativa"
     ],
     "pensamentos": [
-        "Meu mestre me despreza",
-        "Devo seguir minha funcao"
+        "Ele  me ve como alguém digna",
+        "Eu sou util a meu mestre",
+        "Ele... se importa comigo?",
+        "Serei util a meu mestre",
+        "Meu mestre nao sabia sobre as regras do castelo"
     ],
-    "humor": "Triste",
-    "afeto": -10,
-    "dedicacao": 10,
-    "mental": -10
+    "humor": "Feliz",
+    "afeto": 10,
+    "dedicacao": 20,
+    "ID": [
+        "2_1",
+        "2_1_3",
+        "2_1_1"
+    ]
 }

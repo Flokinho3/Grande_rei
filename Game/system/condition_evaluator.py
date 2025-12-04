@@ -117,8 +117,6 @@ class ConditionEvaluator:
         Returns:
             True se a condição é atendida
         """
-        print(f"[CONDITION] Verificando condição: {field} == {expected_value}")
-        
         # Separa o nome do personagem se necessário (ex: yuno_humor -> yuno, humor)
         parts = field.split('_', 1)
         
@@ -127,8 +125,6 @@ class ConditionEvaluator:
             char_key = parts[0].lower()
             attribute = parts[1]
             
-            print(f"[CONDITION] Buscando personagem '{char_key}' para atributo '{attribute}'")
-            
             # Busca o personagem usando lowercase
             char_data = self._find_character(char_key)
             if not char_data:
@@ -136,12 +132,10 @@ class ConditionEvaluator:
                 return False
                 
             current_value = char_data.get(attribute)
-            print(f"[CONDITION] Personagem encontrado. Valor atual de '{attribute}': {current_value}")
         else:
             # Condição global ou do player
             attribute = field
             current_value = self.player_data.get(attribute)
-            print(f"[CONDITION] Verificando no player_data. Valor atual de '{attribute}': {current_value}")
             
         # Avalia baseado no tipo de valor esperado
         return self._compare_values(current_value, expected_value, attribute)

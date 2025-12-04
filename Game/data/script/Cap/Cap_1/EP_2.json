@@ -49,23 +49,34 @@
         },
         {
             "id": "1_2",
-            "titulo": "Caminho - Tratou Bem",
+            "infor": "Caminho - Tratou Bem",
+            "titulo": "Castelo - Entrada",
             "img_fundo": "cap1_ep2_bg.png",
             "texto": [
                 "{img_esquerda:yuno}",
-                "Yuno se aproxima com um sorriso genuíno, sua cauda balançando levemente.",
-                "{yuno}: Bom dia, [nome_jogador]-sama! Espero que tenha descansado bem!",
-                "Há leveza em sua voz, uma alegria que não pode ser fingida."
+                "Após entrarem no castelo, Yuno caminha ao seu lado, seus passos leves e sua cauda balançando com suave entusiasmo.",
+                "{yuno}: Bem-vindo ao salão principal, [nome_jogador]-sama! É aqui que tudo começa — e onde sempre poderá voltar, não importa o que aconteça.",
+                "{yuno}: Se um dia se perder... ou só precisar de um lugar seguro, lembre-se: eu estarei por perto.",
+                "Você percebe o brilho genuíno em seus olhos — como se, só por estar ao seu lado, o mundo fizesse sentido.",
+                "{yuno}: Por enquanto, devo levá-lo aos seus aposentos — é o que as ordens exigem.",
+                "{yuno}: Mas assim que puder, adoraria mostrar cada canto deste castelo... só para você.",
+                "{yuno}: Por favor, siga-me, [nome_jogador]-sama!"
             ],
-            "save_point": true,
             "opcoes": [
                 {
-                    "texto": "Bom dia, Yuno. Como você está?",
-                    "proximo_id": "2"
+                    "texto": "Vamos para o quarto.",
+                    "proximo_id": "1_2_1"
                 },
                 {
-                    "texto": "Vamos começar o dia.",
-                    "proximo_id": "2"
+                    "texto": "Quero dar uma volta.",
+                    "proximo_id": "1_2_2"
+                },
+                {
+                    "texto": "Como você sabe tanto sobre o castelo?",
+                    "proximo_id": "1_2_3",
+                    "condicao": {
+                        "yuno_afeto": ">=15"
+                    }
                 }
             ]
         },

@@ -196,6 +196,55 @@ Use nomes simples **APENAS** para variáveis realmente globais:
 }
 ```
 
+### 📋 Campo "ID" - Controle de Aplicação Única
+
+O campo `"ID"` previne que o mesmo `status_infor` seja aplicado múltiplas vezes:
+
+**No status_infor (cena JSON):**
+```json
+"ID": "2_1_1"  // String simples
+```
+
+**No arquivo do personagem (Yuno.json):**
+```json
+{
+    "nome": "Yuno",
+    "ID": ["2_1", "2_1_1", "2_1_2"]  // Lista de IDs já aplicados
+}
+```
+
+**Como funciona:**
+- ✅ Sistema verifica se o ID do `status_infor` está na lista `ID` do personagem
+- ✅ **Se estiver na lista:** Não aplica (já foi aplicado antes)
+- ✅ **Se não estiver na lista:** Aplica e adiciona à lista do personagem
+- ✅ **Histórico persistente:** IDs ficam salvos no arquivo do personagem
+
+**Exemplo prático:**
+```json
+// status_infor em cena
+{
+    "id": "2_1_1",
+    "status_infor": {
+        "nome": "Yuno",
+        "afeto": "+5",
+        "ID": "2_1_1"  // Será verificado contra Yuno.json
+    }
+}
+
+// Yuno.json antes
+{
+    "nome": "Yuno",
+    "ID": ["2_1"]  // Já tem 2_1 aplicado
+}
+
+// Sistema verifica: "2_1_1" não está em ["2_1"] → APLICA
+// Yuno.json depois
+{
+    "nome": "Yuno", 
+    "ID": ["2_1", "2_1_1"]  // Agora tem os dois
+}
+```
+
 ### Passo 3: Criar Condições Baseadas nos Valores
 
 ```json
