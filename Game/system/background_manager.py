@@ -45,7 +45,7 @@ class BackgroundManager:
         # Carrega do disco
         full_path = os.path.join(self.images_dir, filename)
         if not os.path.exists(full_path):
-            print(f"[BACKGROUND_MANAGER] AVISO: Imagem não encontrada: {full_path}")
+            
             return None
             
         try:

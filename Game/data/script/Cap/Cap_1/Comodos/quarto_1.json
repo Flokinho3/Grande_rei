@@ -1,0 +1,228 @@
+{
+    "quarto_1": [
+        {
+            "id": "entrada",
+            "titulo": "Quarto - Entrada",
+            "img_fundo": "quarto_bg.png",
+            "texto": [
+                "{sprite_clear:all}",
+                "Você entra no quarto!"
+            ],
+            "opcoes": [
+                {
+                    "texto": "...",
+                    "proximo_id": "entrada_sala"
+                }
+            ]
+        },
+        {
+            "id": "entrada_sala",
+            "titulo": "Aposento - Entrada",
+            "img_fundo": "quarto_bg.png",
+            "texto": [
+                "Você vê 4 portas além da sala à sua frente.",
+                "Qual delas deseja examinar?"
+            ],
+            
+            "opcoes": [
+                {
+                    "texto": "[Meu quarto]",
+                    "proximo_id": "quarto"
+                },
+                {
+                    "texto": "[Sala de estar]",
+                    "proximo_id": "sala_estar"
+                },
+                {
+                    "texto": "[Cozinha]",
+                    "proximo_id": "cosinha"
+                }
+            ]
+        },
+        {
+            "id": "quarto",
+            "titulo": "Aposento - Quarto Pessoal",
+            "img_fundo": "quarto_bg.png",
+            "texto": [
+                "Você caminha até a primeira porta à direita.",
+                "Ao passar pela porta, você se depara com seu quarto pessoal.",
+                "O quarto é simples, mas aconchegante.",
+                "Tem uma cama grande, uma escrivaninha de madeira escura, um armário embutido e uma janela que oferece uma vista para os jardins do castelo.",
+                "O ambiente é iluminado por uma luz suave que entra pela janela, criando uma atmosfera tranquila e convidativa.",
+                "O que deseja fazer?"
+            ],
+            "opcoes": [
+                {
+                    "texto": "[Banheira]",
+                    "proximo_id": "banheira"
+                },
+                {
+                    "texto": "[Examinar a escrivaninha]",
+                    "proximo_id": "examinar_escrivaninha"
+                },
+                {
+                    "texto": "[Examinar o armário]",
+                    "proximo_id": "examinar_armario"
+                },
+                {
+                    "texto": "[Olhar pela janela]",
+                    "proximo_id": "examinar_janela"
+                },
+                {
+                    "texto": "[Sair do quarto]",
+                    "proximo_id": "saida"
+                }
+            ]
+        },
+        {
+            "id": "banheira",
+            "titulo": "Aposento - Banheira",
+            "img_fundo": "quarto_bg.png",
+            "texto": [
+                "Ao passar pela porta, você entra no banheiro.",
+                "É possível ver uma banheira grande e luxuosa, feita de mármore branco com detalhes dourados.",
+                "A banheira está cheia de água quente, com espuma perfumada que cobre a superfície.",
+                "Velas aromáticas estão acesas ao redor, criando uma atmosfera relaxante."
+            ],
+            "opcoes": [
+                {
+                    "texto": "[Sair do banheiro]",
+                    "proximo_id": "quarto"
+                },
+                {
+                    "texto": "[Tomar um banho]",
+                    "proximo_id": "apos_banho_bom_1",
+                    "condicao": {
+                        "yuno_afeto": ">=10"
+                    },
+                    "infor": "Após o banho, o jogador percebe que não pegou as malas, ou seja, está sem roupas novas!"
+                },
+                {
+                    "texto": "[Tomar um banho]",
+                    "condicao": {
+                        "yuno_afeto": "<10"
+                    },
+                    "proximo_id": "sala_estar_banho"
+                }
+            ]
+        },
+        {
+            "id": "apos_banho_bom_1",
+            "titulo": "Aposento - Banho Tomado",
+            "infor": "O jogador NÃO VAI USAR AS ROUPAS DA YUNO PORRA",
+            "img_fundo": "quarto_bg.png",
+            "texto": [
+                "A água quente e as velas aromáticas proporcionam um momento de relaxamento profundo.",
+                "Você @tex_time[5: sente o mundo ficar mais lento].",
+                "@tex_time[20: lento].",
+                "@jump_text[2]",
+                "**Você adormece**",
+                "@jump_text[10]",
+                "Ao acordar, percebe que passou horas na banheira.",
+                "Sente-se revigorado e pronto para enfrentar o que vier a seguir.",
+                "Ao se preparar para sair, percebe que esqueceu suas roupas!"
+            ],
+            "opcoes": [
+                {
+                    "texto": "[Procurar roupas]",
+                    "proximo_id": "procurar_roupas",
+                    "condicao": {
+                        "yuno_afeto": ">=10"
+                    }
+                },
+                {
+                    "texto": "[Usar roupas antigas]",
+                    "proximo_id": "sala_estar_banho",
+                    "condicao": {
+                        "yuno_afeto": "<10"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "procurar_roupas",
+            "titulo": "Aposento - Um Encontro Inesperado",
+            "img_fundo": "corredor_bg.png",
+            "texto": [
+                "Você envolve-se apressadamente em uma toalha fina e sai do banheiro, ainda pingando água.",
+                "O corredor está silencioso... até que, ao virar na direção do quarto, você literalmente esbarra em alguém.",
+                "{sprite:yuno:left}",
+                "{yuno}: Ah!, [nome_jogador]-sama! Eu—",
+                "@tex_time[20: ......].",
+                "[yuno] encosta a mão na porta e um barulho é escutado!",
+                "**clik**",
+                "{yuno}: Ah... justo agora?",
+                "[yuno] estende a mão para você se levantar com a maior naturalidade do mundo.",
+                "{yuno}: Aqui estão suas roupas limpas. Por favor, vista-se — a Anfitriã aparecerá em breve para cumprimentá-lo!",
+                "{yuno}: Não seria apropriado recebê-la... assim.",
+                "Você percebe que [yuno] está evitando olhar diretamente para você, focando nas roupas que lhe entrega.",
+                "{yuno}: Assim que estiver pronto, chamarei por você. Até lá, o corredor é só seu."
+            ],
+            "opcoes": [
+                {
+                    "texto": "[... Obrigado, Yuno.]",
+                    "proximo_id": "sala_estar_banho",
+                    "set_flag": "encontro_embaraçoso",
+                    "afeto_change": "+2"
+                }
+            ]
+        },
+        {
+            "id": "cosinha",
+            "titulo": "Aposento - Cozinha",
+            "img_fundo": "cozinha_bg.png",
+            "texto": [
+                "Ao entrar na primeira porta à sua esquerda, você se depara com a cozinha.",
+                "O ambiente é espaçoso e bem iluminado, com o aroma suave de pão quente e ervas frescas.",
+                "A cozinha é dividida em duas áreas: uma para preparo de alimentos e outra para refeições.",
+                "Há uma mesa de madeira no centro, cercada por cadeiras confortáveis.",
+                "Armários de madeira clara alinham as paredes, cheios de utensílios e ingredientes.",
+                "No fundo, quase escondida atrás de uma prateleira de louças, há uma pequena porta de madeira escura.",
+                "Justo quando você a nota, Yuno surge por tr behind dela, ajustando o avental com as mãos ainda úmidas.",
+                "{sprite:yuno}",
+                "Ela não demonstra surpresa ao vê-lo. Sorri, como se já esperasse sua chegada.",
+                "{yuno}: Olá, [nome_jogador]-sama! Já explorou seus aposentos?",
+                "Ela caminha até a mesa, onde uma xícara de chá fumegante e um pão quentinho já aguardam.",
+                "{yuno}: Sabia que viria aqui antes mesmo de escolher seu quarto. A cozinha é onde os corações falam mais alto, não é?"
+            ],
+            "opcoes": [
+                {
+                    "texto": "[Voltar à entrada do aposento]",
+                    "proximo_id": "entrada_sala"
+                },
+                {
+                    "texto": "[Aceitar o chá e o pão]",
+                    "proximo_id": "aceitar_cha_pao"
+                },
+                {
+                    "texto": "[Recusar educadamente]",
+                    "proximo_id": "recusar_cha_pao"
+                },
+                {
+                    "texto": "[Perguntar sobre a porta no fundo]",
+                    "proximo_id": "perguntar_porta",
+                    "set_memoria": "perguntou_sobre_a_porta",
+                    "condicao": {
+                        "memoria": "!perguntou_sobre_a_porta"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "perguntar_porta",
+            "titulo": "Aposento - Cozinha",
+            "img_fundo": "cozinha_bg.png",
+            "texto": [
+                "{yuno}: Ah, aquela porta? É meu quarto!",
+                "{yuno}: Nada de interessante por lá, [nome_jogador]-sama.",
+                "Ela sorri e continua preparando algo na cozinha — mas, por um breve instante, seus dedos apertam o cabo da colher um pouco mais forte."
+            ],
+            "opcoes": [
+                {
+                    "texto": "[Entendi...]",
+                    "proximo_id": "cosinha"
+                }
+            ]
+        }
+    ]
+}

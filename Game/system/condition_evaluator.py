@@ -111,12 +111,20 @@ class ConditionEvaluator:
         Verifica uma condição específica
         
         Args:
-            field: Nome do campo a verificar (ex: 'afeto', 'yuno_humor', 'mestre_yuno_forca')
-            expected_value: Valor esperado (pode ser número, string, range)
+            field: Nome do campo a verificar (ex: 'afeto', 'yuno_humor', 'mestre_yuno_forca', 'flag', 'memoria')
+            expected_value: Valor esperado (pode ser número, string, range, ou flag com !)
             
         Returns:
             True se a condição é atendida
         """
+        # Verifica se é uma condição de flag
+        if field.lower() == 'flag':
+            return self._check_flag_condition(expected_value)
+        
+        # Verifica se é uma condição de memoria
+        if field.lower() == 'memoria':
+            return self._check_memoria_condition(expected_value)
+        
         # Separa o nome do personagem se necessário (ex: yuno_humor -> yuno, humor)
         parts = field.split('_', 1)
         
@@ -139,6 +147,52 @@ class ConditionEvaluator:
             
         # Avalia baseado no tipo de valor esperado
         return self._compare_values(current_value, expected_value, attribute)
+    
+    def _check_flag_condition(self, flag_value: str) -> bool:
+        """
+        Verifica uma condição de flag
+        
+        Args:
+            flag_value: Nome da flag, pode começar com ! para negação
+            
+        Returns:
+            True se a condição de flag é atendida
+        """
+        player_flags = self.player_data.get('flags', [])
+        
+        # Verifica se é negação (!flag)
+        if flag_value.startswith('!'):
+            flag_name = flag_value[1:]
+            result = flag_name not in player_flags
+            print(f"[CONDITION] Flag '{flag_name}' NOT set = {result}")
+            return result
+        else:
+            result = flag_value in player_flags
+            print(f"[CONDITION] Flag '{flag_value}' set = {result}")
+            return result
+    
+    def _check_memoria_condition(self, memoria_value: str) -> bool:
+        """
+        Verifica uma condição de memoria
+        
+        Args:
+            memoria_value: Nome da memoria, pode começar com ! para negação
+            
+        Returns:
+            True se a condição de memoria é atendida
+        """
+        player_memorias = self.player_data.get('memorias', [])
+        
+        # Verifica se é negação (!memoria)
+        if memoria_value.startswith('!'):
+            memoria_name = memoria_value[1:]
+            result = memoria_name not in player_memorias
+            print(f"[CONDITION] Memoria '{memoria_name}' NOT set = {result}")
+            return result
+        else:
+            result = memoria_value in player_memorias
+            print(f"[CONDITION] Memoria '{memoria_value}' set = {result}")
+            return result
         
     def _compare_values(self, current: Any, expected: Any, field_name: str) -> bool:
         """

@@ -1,6 +1,12 @@
 import json
 import os
+import sys
 from typing import Dict, List
+
+# Add the project root to sys.path so we can import Game
+project_root = os.path.dirname(os.path.dirname(__file__))
+sys.path.insert(0, project_root)
+
 from Game.system.condition_evaluator import ConditionEvaluator  # usa teu avaliador
 
 BASE_PATH = "Game/data/script/Cap/Cap_1"

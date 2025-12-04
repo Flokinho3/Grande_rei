@@ -19,18 +19,19 @@ class ItemNotificationManager:
         """
         self.duration = duration
         self.fps = fps
-        self.current_item: Optional[str] = None
+        self.current_item: Optional[dict] = None
         self.timer: int = 0
         
-    def show_notification(self, item_name: str):
+    def show_notification(self, item):
         """
         Exibe uma notificação para um item
         
         Args:
-            item_name: Nome ou descrição do item a ser notificado
+            item: Dicionário com 'nome' e opcionalmente 'quantidade'
         """
-        self.current_item = item_name
+        self.current_item = item
         self.timer = self.duration
+        item_name = item.get('nome', 'Item') if isinstance(item, dict) else str(item)
         print(f"[ITEM_NOTIFICATION] Notificação: {item_name}")
         
     def update(self):
@@ -51,12 +52,12 @@ class ItemNotificationManager:
         self.current_item = None
         self.timer = 0
         
-    def get_current_notification(self) -> Optional[str]:
+    def get_current_notification(self) -> Optional[dict]:
         """
         Retorna o item atualmente sendo notificado, se houver
         
         Returns:
-            Nome do item ou None se não há notificação ativa
+            Dicionário do item ou None se não há notificação ativa
         """
         return self.current_item
         

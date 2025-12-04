@@ -68,7 +68,7 @@ class UIManager:
             if next_id is None:
                 # Warn for easier debugging but still append None so caller can decide
                 print(f"UIManager.create_buttons: option missing next-id keys for option: {option}")
-            buttons.append((button, next_id))
+            buttons.append((button, next_id, option))
         return buttons
 
     def draw_title(self, screen, title, y=50):
@@ -103,7 +103,7 @@ class UIManager:
         text_pos = (inner.x + pad_x // 2, inner.y + pad_y // 2)
         screen.blit(name_surf, text_pos)
 
-    def draw_dialogue(self, screen, text, text_processor, characters, x=50, y=None, max_width=None):
+    def draw_dialogue(self, screen, text, text_processor, characters, x=50, y=None, max_width=None, skip_pressed=False):
         if y is None:
             y = self.screen_height - 150
         # Usa o renderizador com quebra de linhas para garantir que o texto não saia da caixa
@@ -115,7 +115,9 @@ class UIManager:
             max_w = max_width
         # calcula altura de linha com base no tamanho da fonte
         line_height = self.dialogue_style.size + 6
-        text_processor.render_wrapped_colored_text(
+        
+        # Usar renderizador com efeitos especiais (tex_time, jump_text)
+        finished, has_slow_text = text_processor.render_dialogue_with_effects(
             screen,
             text,
             self.dialogue_style.font,
@@ -124,21 +126,32 @@ class UIManager:
             max_w,
             line_height,
             self.dialogue_style.color,
-            characters
+            characters,
+            skip_pressed
         )
+        
+        return finished, has_slow_text
 
     def draw_item_notification(self, screen, item):
         """
         Desenha uma notificação de item adicionado no topo esquerdo da tela.
         item deve ter 'nome' e 'quantidade'.
         """
+        if not item:
+            return
+            
         # Posição no topo esquerdo
         margin_x = 20
         margin_y = 20
         
         # Criar texto da notificação
-        nome = item.get('nome', 'Item')
-        quantidade = item.get('quantidade', 1)
+        # Suporta tanto dicionário quanto string
+        if isinstance(item, dict):
+            nome = item.get('nome', 'Item')
+            quantidade = item.get('quantidade', 1)
+        else:
+            nome = str(item)
+            quantidade = 1
         notification_text = f"+{quantidade} {nome}"
         
         # Renderizar texto

@@ -35,6 +35,10 @@ class Game:
         # Flag para controle de transição de cena
         self.scene_transitioning = False
         
+        # Stack para gerenciar entrada/saída de cômodos
+        self.room_stack = []  # [(scenes, scenes_order, scene_id, text_index), ...]
+        self.in_room = False
+        
         # Managers especializados
         self.sprite_manager = renderer.sprite_manager
         self.save_manager = SaveManager()
@@ -67,6 +71,7 @@ class Game:
         running = True
         buttons = None
         last_scene_id = None
+        skip_pressed = False  # Flag para detectar quando usuário pulou texto
         while running:
             scene = self.scenes.get(self.current_scene_id)
             if not scene:
@@ -77,10 +82,22 @@ class Game:
             if last_scene_id != self.current_scene_id:
                 buttons = None
                 last_scene_id = self.current_scene_id
+                skip_pressed = False  # Reset skip flag em nova cena
                 
                 # Se estivervamos em transição de cena, limpar a flag
                 if self.scene_transitioning:
                     self.scene_transitioning = False
+                
+                # Verificar se a cena atual tem flag de retorno
+                if 'return_to_caller' in scene and scene['return_to_caller']:
+                    print(f"[GAME] Cena com return_to_caller detectada")
+                    self._exit_room()
+                    # Atualiza scene para a cena restaurada
+                    scene = self.scenes.get(self.current_scene_id)
+                    if not scene:
+                        print(f"[GAME] ERRO: Cena '{self.current_scene_id}' não encontrada após retorno")
+                        running = False
+                        continue
                 
                 # Avaliar condições de cena (se existir)
                 next_scene_from_condition = self.condition_evaluator.evaluate_scene_conditions(scene)
@@ -109,9 +126,42 @@ class Game:
                 # Handle add_item usando ItemNotificationManager
                 if 'add_item' in scene:
                     item = scene['add_item']
-                    self.player_data['inventario'].append(item)
-                    self.notification_manager.show_notification(item)
-                    
+                    # Normalizar item para dicionário se for string
+                    if isinstance(item, str):
+                        item_dict = {'nome': item, 'quantidade': 1}
+                        self.player_data['inventario'].append(item_dict)
+                        self.notification_manager.show_notification(item_dict)
+                    else:
+                        self.player_data['inventario'].append(item)
+                        self.notification_manager.show_notification(item)
+                
+                # Handle set_flag para marcar ações realizadas
+                if 'set_flag' in scene:
+                    flag = scene['set_flag']
+                    if 'flags' not in self.player_data:
+                        self.player_data['flags'] = []
+                    if flag not in self.player_data['flags']:
+                        self.player_data['flags'].append(flag)
+                        print(f"[GAME] Flag definida: {flag}")
+                
+                # Handle set_flag2 (segunda flag)
+                if 'set_flag2' in scene:
+                    flag = scene['set_flag2']
+                    if 'flags' not in self.player_data:
+                        self.player_data['flags'] = []
+                    if flag not in self.player_data['flags']:
+                        self.player_data['flags'].append(flag)
+                        print(f"[GAME] Flag definida: {flag}")
+                
+                # Handle set_memoria para marcar memórias do jogador
+                if 'set_memoria' in scene:
+                    memoria = scene['set_memoria']
+                    if 'memorias' not in self.player_data:
+                        self.player_data['memorias'] = []
+                    if memoria not in self.player_data['memorias']:
+                        self.player_data['memorias'].append(memoria)
+                        print(f"[GAME] Memoria definida: {memoria}")
+                
                 # Aplicar status_infor usando StatusManager
                 if 'status_infor' in scene and isinstance(scene['status_infor'], dict):
                     try:
@@ -128,7 +178,7 @@ class Game:
                     running = False
                 elif event.type == pygame.MOUSEMOTION and buttons:
                     mouse_pos = pygame.mouse.get_pos()
-                    for button, _ in buttons:
+                    for button, _, _ in buttons:
                         button.update_hover(mouse_pos)
                 elif event.type == pygame.KEYDOWN:
                     # "esc" para encerrar o jogo
@@ -136,6 +186,7 @@ class Game:
                         pygame.quit()
                         sys.exit()
                     elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                        skip_pressed = True  # Marca que usuário pulou
                         if self.current_text_index < len(scene['texto']):
                             # Avança para próxima linha
                             self.current_text_index += 1
@@ -195,12 +246,25 @@ class Game:
                                         pass
                 elif event.type == pygame.MOUSEBUTTONDOWN and buttons:
                     mouse_pos = pygame.mouse.get_pos()
-                    for button, next_scene in buttons:
+                    for button, next_scene, option_data in buttons:
                         if button.is_clicked(mouse_pos, event):
-                            # Marcar que estamos em transição de cena
-                            self.scene_transitioning = True
-                            self.current_scene_id = next_scene
-                            self.current_text_index = 1
+                            # Processar ações da opção antes de mudar de cena
+                            if 'set_memoria' in option_data:
+                                memoria = option_data['set_memoria']
+                                if 'memorias' not in self.player_data:
+                                    self.player_data['memorias'] = []
+                                if memoria not in self.player_data['memorias']:
+                                    self.player_data['memorias'].append(memoria)
+                                    print(f"[GAME] Memoria definida pela opção: {memoria}")
+                            
+                            # Verificar se next_scene é um cômodo
+                            if self._is_room_reference(next_scene):
+                                self._enter_room(next_scene)
+                            else:
+                                # Marcar que estamos em transição de cena
+                                self.scene_transitioning = True
+                                self.current_scene_id = next_scene
+                                self.current_text_index = 1
                             # when scene changes, we'll reset buttons next loop
                             # Clear buttons immediately to prevent rendering old content
                             buttons = None
@@ -220,8 +284,13 @@ class Game:
                 buttons, 
                 self.sprite_manager, 
                 current_notification,
-                self.condition_evaluator
+                self.condition_evaluator,
+                skip_pressed
             )
+            
+            # Reset skip_pressed após processar o frame
+            if skip_pressed:
+                skip_pressed = False
 
             # Cap frame rate
             self.clock.tick(60)
@@ -284,6 +353,25 @@ class Game:
         # `self.current_text_index` é 1-based (1 = primeiro elemento em texto[0])
         while 1 <= self.current_text_index <= len(scene['texto']):
             line = scene['texto'][self.current_text_index - 1]
+            
+            # Verificar se a linha contém comandos de texto especiais que devem ser exibidos
+            has_tex_time = '@tex_time[' in line
+            
+            # Verificar se a linha é APENAS um comando jump_text
+            jump_match = re.match(r'^\s*@jump_text\[\d+\]\s*$', line)
+            has_only_jump_text = jump_match is not None
+            
+            # Se tem tex_time, nunca pular (é conteúdo de texto)
+            if has_tex_time:
+                break
+            
+            # Se tem APENAS jump_text (linha inteira é o comando), pular pois será processado na renderização
+            if has_only_jump_text:
+                # Avançar para próxima linha - o jump_text será processado quando usuário pular
+                print(f"[DEBUG] Linha jump_text detectada (será processada na renderização): {line}")
+                self.current_text_index += 1
+                continue
+            
             # Remove comandos entre chaves e verifica se sobra texto
             stripped = re.sub(r'\{[^}]+\}', '', line).strip()
             
@@ -299,3 +387,58 @@ class Game:
             else:
                 # Encontrou linha com texto - para
                 break
+    
+    def _is_room_reference(self, scene_id: str) -> bool:
+        """Verifica se o scene_id é uma referência a um cômodo"""
+        # Cômodos seguem o padrão: nome_do_comodo
+        # Exemplos: quarto_1, cozinha, biblioteca
+        return scene_id not in self.scenes and '_' in scene_id
+    
+    def _enter_room(self, room_name: str):
+        """Entra em um cômodo, salvando o estado atual"""
+        if not self.data_loader:
+            print(f"[GAME] ERRO: DataLoader não disponível para carregar cômodo")
+            return
+        
+        # Salvar estado atual antes de entrar no cômodo
+        self.room_stack.append({
+            'scenes': self.scenes,
+            'scenes_order': self.scenes_order,
+            'scene_id': self.current_scene_id,
+            'text_index': self.current_text_index
+        })
+        
+        print(f"[GAME] Entrando no cômodo: {room_name}")
+        print(f"[GAME] Estado salvo: scene_id={self.current_scene_id}, text_index={self.current_text_index}")
+        
+        # Carregar cenas do cômodo
+        room_scenes, room_order = self.data_loader.load_room(room_name)
+        
+        if room_scenes and room_order:
+            self.scenes = room_scenes
+            self.scenes_order = room_order
+            self.current_scene_id = room_order[0] if room_order else "entrada"
+            self.current_text_index = 1
+            self.in_room = True
+            self.scene_transitioning = True
+            print(f"[GAME] Cômodo carregado. Iniciando em: {self.current_scene_id}")
+        else:
+            print(f"[GAME] ERRO: Não foi possível carregar o cômodo '{room_name}'")
+            # Restaurar do stack se falhou
+            if self.room_stack:
+                self.room_stack.pop()
+    
+    def _exit_room(self):
+        """Sai do cômodo atual e retorna ao estado anterior"""
+        if not self.room_stack:
+            print(f"[GAME] ERRO: Tentativa de sair de cômodo sem stack")
+            return
+        
+        # Restaurar estado anterior
+        previous_state = self.room_stack.pop()
+        self.scenes = previous_state['scenes']
+        self.scenes_order = previous_state['scenes_order']
+        self.current_scene_id = previous_state['scene_id']
+        self.current_text_index = previous_state['text_index']
+        self.in_room = len(self.room_stack) > 0  # Ainda em sala se há mais na stack
+        self.scene_transitioning = True

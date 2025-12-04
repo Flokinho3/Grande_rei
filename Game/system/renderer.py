@@ -32,7 +32,7 @@ class Renderer:
         # Sistema de backgrounds
         self.background_manager = BackgroundManager(screen_width, screen_height)
 
-    def display_scene(self, scene, player_name, text_index, characters, text_processor, buttons=None, sprite_manager=None, item_notification=None, condition_evaluator=None):
+    def display_scene(self, scene, player_name, text_index, characters, text_processor, buttons=None, sprite_manager=None, item_notification=None, condition_evaluator=None, skip_pressed=False):
         # Always clear the screen with background color first
         self.screen.fill(self.ui_manager.background_color)
 
@@ -65,9 +65,10 @@ class Renderer:
             line = scene['texto'][text_index - 1]
             replaced_line = text_processor.replace_placeholders(line, player_name, characters)
             # Detect a leading speaker token in curly braces, e.g. "{Yuno}: Hello" or "{nome_player}:..."
+            # Mas NÃO capturar comandos especiais como tex_time, jump_text, etc
             speaker_name = None
             speaker_color = None
-            m = re.match(r"^\{([^}]+)\}\s*:?\s*(.*)$", replaced_line)
+            m = re.match(r"^\{([^}=:]+)\}\s*:\s*(.*)$", replaced_line)
             if m:
                 token = m.group(1)
                 # If token refers to player name variants, use player_name
@@ -90,14 +91,15 @@ class Renderer:
                     if speaker_color:
                         self.ui_manager.draw_speaker_label(self.screen, speaker_name, speaker_color, box_x, box_y)
             # Passe também a largura útil da caixa interna para que o texto quebre corretamente
-            self.ui_manager.draw_dialogue(
+            text_finished, has_slow_text = self.ui_manager.draw_dialogue(
                 self.screen,
                 replaced_line,
                 text_processor,
                 characters,
                 text_box_inner.x + 10,
                 text_box_inner.y + 10,
-                text_box_inner.width - 20
+                text_box_inner.width - 20,
+                skip_pressed
             )
 
         # Options as Victorian buttons
@@ -119,7 +121,7 @@ class Renderer:
 
             # Desenha os botões atuais (se houver)
             if buttons:
-                for button, _ in buttons:
+                for button, _, _ in buttons:
                     button.draw(self.screen)
 
         # Desenhar notificação de item se houver
@@ -130,6 +132,6 @@ class Renderer:
         return buttons
 
     def draw_buttons(self, buttons):
-        for button, _ in buttons:
+        for button, _, _ in buttons:
             button.draw(self.screen)
         pygame.display.flip()

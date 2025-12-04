@@ -1,10 +1,93 @@
 import re
+import time
 
 class TextProcessor:
+    def __init__(self):
+        # Sistema de texto lento
+        self.slow_text_active = False
+        self.slow_text_chars = []
+        self.slow_text_index = 0
+        self.slow_text_delay = 0.05  # delay padrão entre caracteres
+        self.slow_text_last_update = 0
+        self.slow_text_full = ""
+        self.slow_text_current_id = None  # ID do texto atual sendo processado
+        
+        # Sistema de linhas em branco após pulo
+        self.blank_lines_to_show = 0
+    
+    def parse_tex_time(self, text):
+        """
+        Processa comandos @tex_time[N: texto] para extrair segmentos de texto lento.
+        Suporta múltiplos tex_time em sequência, ex: @tex_time[3: texto1] @tex_time[5: texto2]
+        Retorna uma lista de tuplas: (tipo, conteúdo, delay)
+        - tipo 'normal': texto normal
+        - tipo 'slow': texto que deve ser exibido lentamente
+        """
+        segments = []
+        
+        # Padrão para capturar @tex_time[N: conteúdo]
+        # Captura o número, depois o texto até o colchete de fechamento
+        pattern = r'@tex_time\[(\d+(?:\.\d+)?)\s*:\s*([^\]]+)\]'
+        
+        # Primeiro, verificar se há algum comando tex_time
+        if not re.search(pattern, text):
+            segments.append(('normal', text, 0))
+            return segments
+        
+        current_pos = 0
+        
+        # Encontrar todos os matches de tex_time
+        for match in re.finditer(pattern, text):
+            # Adicionar texto normal antes do comando (se houver)
+            if match.start() > current_pos:
+                normal_text = text[current_pos:match.start()]
+                if normal_text.strip():
+                    segments.append(('normal', normal_text, 0))
+            
+            # Adicionar segmento de texto lento
+            delay = float(match.group(1))
+            slow_text = match.group(2).strip()
+            if slow_text:
+                segments.append(('slow', slow_text, delay))
+            
+            current_pos = match.end()
+        
+        # Adicionar texto restante após o último comando (se houver)
+        if current_pos < len(text):
+            remaining = text[current_pos:]
+            if remaining.strip():
+                segments.append(('normal', remaining, 0))
+        
+        # Se não houver segmentos, retorna texto normal
+        if not segments:
+            segments.append(('normal', text, 0))
+        
+        return segments
+    
+    def parse_jump_text(self, text):
+        """
+        Processa comando @jump_text[N] que indica quantas linhas em branco devem
+        ser exibidas após o usuário pular o texto.
+        Retorna o número de linhas e o texto sem o comando.
+        """
+        pattern = r'@jump_text\[(\d+)\]'
+        match = re.search(pattern, text)
+        
+        if match:
+            blank_lines = int(match.group(1))
+            # Remove o comando do texto
+            clean_text = re.sub(pattern, '', text)
+            return blank_lines, clean_text
+        
+        return 0, text
+    
     def replace_placeholders(self, text, player_name, characters):
         # Remove sprite commands from text (they're display commands, not dialogue)
         text = re.sub(r'\{img_esquerda:[^}]*\}', '', text)
         text = re.sub(r'\{img_clear\}', '', text)
+        
+        # Processar comandos de texto especiais não precisa ser feito aqui
+        # pois serão processados em render_dialogue_with_effects
         
         # Substitui [nome_jogador] pelo nome do jogador (case-insensitive)
         text = re.sub(r'\[nome_jogador\]', player_name, text, flags=re.IGNORECASE)
@@ -216,3 +299,107 @@ class TextProcessor:
         # Flush remaining tokens
         if line_tokens:
             flush_line()
+    
+    def render_dialogue_with_effects(self, screen, text, font, x, y, max_width, line_height, default_color, name_colors, skip_pressed=False):
+        """
+        Renderiza diálogo com suporte a efeitos especiais:
+        - {tex_time=N:texto}: texto lento caractere por caractere
+        - {jump_text:N}: linhas em branco após pular texto
+        
+        Retorna: (finished, has_slow_text)
+        - finished: True se todo o texto foi exibido
+        - has_slow_text: True se há texto lento sendo processado
+        """
+        import pygame
+        
+        # Processar jump_text primeiro
+        blank_lines, clean_text = self.parse_jump_text(text)
+        
+        # Se usuário pulou e há linhas em branco configuradas
+        if skip_pressed and blank_lines > 0:
+            # Exibir linhas em branco
+            for i in range(blank_lines):
+                y_pos = y + (i * line_height)
+                if y_pos < screen.get_height():
+                    blank_surf = font.render("", True, default_color)
+                    screen.blit(blank_surf, (x, y_pos))
+            return True, False
+        
+        # Processar tex_time
+        segments = self.parse_tex_time(clean_text)
+        
+        # Verificar se há segmentos de texto lento
+        has_slow = any(seg[0] == 'slow' for seg in segments)
+        
+        if not has_slow:
+            # Renderização normal sem efeitos
+            self.render_wrapped_colored_text(
+                screen, clean_text, font, x, y, max_width, line_height,
+                default_color, name_colors
+            )
+            return True, False
+        
+        # Se usuário pulou, exibir tudo imediatamente
+        if skip_pressed:
+            self.slow_text_active = False
+            full_text = ''.join(seg[1] for seg in segments)
+            self.render_wrapped_colored_text(
+                screen, full_text, font, x, y, max_width, line_height,
+                default_color, name_colors
+            )
+            return True, False
+        
+        # Sistema de texto lento
+        current_time = time.time()
+        
+        # Criar ID único para este texto
+        text_id = hash(clean_text)
+        
+        # Inicializar sistema de texto lento se necessário ou se mudou o texto
+        if not self.slow_text_active or self.slow_text_current_id != text_id:
+            self.slow_text_active = True
+            self.slow_text_current_id = text_id
+            self.slow_text_chars = []
+            self.slow_text_index = 0
+            self.slow_text_last_update = current_time
+            self.slow_text_full = ""
+            
+            # Construir lista de caracteres com seus delays
+            for seg_type, seg_text, seg_delay in segments:
+                if seg_type == 'slow':
+                    for char in seg_text:
+                        self.slow_text_chars.append((char, seg_delay))
+                else:
+                    # Texto normal: adiciona todos de uma vez com delay 0
+                    for char in seg_text:
+                        self.slow_text_chars.append((char, 0))
+        
+        # Atualizar texto lento
+        while self.slow_text_index < len(self.slow_text_chars):
+            char, delay = self.slow_text_chars[self.slow_text_index]
+            
+            if delay == 0:
+                # Texto normal, adiciona imediatamente
+                self.slow_text_full += char
+                self.slow_text_index += 1
+            else:
+                # Texto lento, verifica delay
+                # Converte delay (que está em frames a 60 FPS) para segundos
+                delay_seconds = delay / 60.0
+                if current_time - self.slow_text_last_update >= delay_seconds:
+                    self.slow_text_full += char
+                    self.slow_text_index += 1
+                    self.slow_text_last_update = current_time
+                else:
+                    break
+        
+        # Renderizar texto acumulado
+        self.render_wrapped_colored_text(
+            screen, self.slow_text_full, font, x, y, max_width, line_height,
+            default_color, name_colors
+        )
+        
+        # Verificar se terminou
+        finished = self.slow_text_index >= len(self.slow_text_chars)
+        
+        return finished, True
