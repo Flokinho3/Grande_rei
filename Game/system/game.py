@@ -32,6 +32,9 @@ class Game:
         self.current_text_index = 1
         self.inventory = self.player_data.get('inventario', [])
         
+        # Flag para controle de transição de cena
+        self.scene_transitioning = False
+        
         # Managers especializados
         self.sprite_manager = renderer.sprite_manager
         self.save_manager = SaveManager()
@@ -74,6 +77,10 @@ class Game:
             if last_scene_id != self.current_scene_id:
                 buttons = None
                 last_scene_id = self.current_scene_id
+                
+                # Se estivervamos em transição de cena, limpar a flag
+                if self.scene_transitioning:
+                    self.scene_transitioning = False
                 
                 # Avaliar condições de cena (se existir)
                 next_scene_from_condition = self.condition_evaluator.evaluate_scene_conditions(scene)
@@ -156,6 +163,8 @@ class Game:
                         else:
                             # If scene has explicit next, use it
                             if not buttons and 'x_x' in scene:
+                                # Marcar que estamos em transição de cena
+                                self.scene_transitioning = True
                                 self.current_scene_id = scene['x_x']
                                 self.current_text_index = 1
                             else:
@@ -164,6 +173,8 @@ class Game:
                                     try:
                                         idx = self.scenes_order.index(self.current_scene_id)
                                         if idx + 1 < len(self.scenes_order):
+                                            # Marcar que estamos em transição de cena
+                                            self.scene_transitioning = True
                                             self.current_scene_id = self.scenes_order[idx + 1]
                                             self.current_text_index = 1
                                         else:
@@ -172,6 +183,8 @@ class Game:
                                                 new_scenes, new_order = self.data_loader.load_next_episode()
                                                 if new_scenes and new_order:
                                                     print(f"[GAME] Transição para próximo episódio")
+                                                    # Marcar que estamos em transição de cena
+                                                    self.scene_transitioning = True
                                                     self.scenes = new_scenes
                                                     self.scenes_order = new_order
                                                     self.current_scene_id = new_order[0] if new_order else "1"
@@ -184,9 +197,13 @@ class Game:
                     mouse_pos = pygame.mouse.get_pos()
                     for button, next_scene in buttons:
                         if button.is_clicked(mouse_pos, event):
+                            # Marcar que estamos em transição de cena
+                            self.scene_transitioning = True
                             self.current_scene_id = next_scene
                             self.current_text_index = 1
                             # when scene changes, we'll reset buttons next loop
+                            # Clear buttons immediately to prevent rendering old content
+                            buttons = None
                             break
 
             # Atualizar notificação usando ItemNotificationManager
